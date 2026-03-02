@@ -42,7 +42,7 @@ describe('ToastErrorBoundary', () => {
       </ToastErrorBoundary>
     )
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      '[GoeyToast] Rendering error:',
+      '[GooeyToast] Rendering error:',
       expect.any(Error),
       expect.objectContaining({ componentStack: expect.any(String) })
     )

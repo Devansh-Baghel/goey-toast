@@ -531,6 +531,15 @@ body {
   flex-wrap: wrap;
 }
 
+.install-hint {
+  display: block;
+  width: 100%;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: -0.25rem;
+}
+
 .install-wrapper {
   display: inline-flex;
   align-items: center;

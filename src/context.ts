@@ -6,107 +6,107 @@ let _spring: boolean = true
 let _bounce: number | undefined = undefined
 let _theme: 'light' | 'dark' = 'light'
 
-export function setGoeyTheme(theme: 'light' | 'dark') {
+export function setGooeyTheme(theme: 'light' | 'dark') {
   _theme = theme
 }
 
-export function getGoeyTheme(): 'light' | 'dark' {
+export function getGooeyTheme(): 'light' | 'dark' {
   return _theme
 }
 
-export function setGoeyPosition(position: ToasterProps['position']) {
+export function setGooeyPosition(position: ToasterProps['position']) {
   _position = position
 }
 
-export function getGoeyPosition() {
+export function getGooeyPosition() {
   return _position
 }
 
-export function setGoeyDir(dir: 'ltr' | 'rtl') {
+export function setGooeyDir(dir: 'ltr' | 'rtl') {
   _dir = dir
 }
 
-export function getGoeyDir(): 'ltr' | 'rtl' {
+export function getGooeyDir(): 'ltr' | 'rtl' {
   return _dir
 }
 
-export function setGoeySpring(spring: boolean) {
+export function setGooeySpring(spring: boolean) {
   _spring = spring
 }
 
-export function getGoeySpring() {
+export function getGooeySpring() {
   return _spring
 }
 
-export function setGoeyBounce(bounce: number | undefined) {
+export function setGooeyBounce(bounce: number | undefined) {
   _bounce = bounce
 }
 
-export function getGoeyBounce() {
+export function getGooeyBounce() {
   return _bounce
 }
 
 let _visibleToasts = 3
 
-export function setGoeyVisibleToasts(n: number) {
+export function setGooeyVisibleToasts(n: number) {
   _visibleToasts = n
 }
 
-export function getGoeyVisibleToasts() {
+export function getGooeyVisibleToasts() {
   return _visibleToasts
 }
 
 // ---------------------------------------------------------------------------
-// Container hover — broadcast from GoeyToaster to all mounted GoeyToast instances
+// Container hover — broadcast from GooeyToaster to all mounted GooeyToast instances
 // so timers pause and re-expand triggers correctly when hovering the stack.
 // ---------------------------------------------------------------------------
 let _swipeToDismiss = true
 
-export function setGoeySwipeToDismiss(enabled: boolean) {
+export function setGooeySwipeToDismiss(enabled: boolean) {
   _swipeToDismiss = enabled
 }
 
-export function getGoeySwipeToDismiss() {
+export function getGooeySwipeToDismiss() {
   return _swipeToDismiss
 }
 
 let _closeOnEscape = true
 
-export function setGoeyCloseOnEscape(enabled: boolean) {
+export function setGooeyCloseOnEscape(enabled: boolean) {
   _closeOnEscape = enabled
 }
 
-export function getGoeyCloseOnEscape() {
+export function getGooeyCloseOnEscape() {
   return _closeOnEscape
 }
 
 let _maxQueue = Infinity
 
-export function setGoeyMaxQueue(n: number) {
+export function setGooeyMaxQueue(n: number) {
   _maxQueue = n
 }
 
-export function getGoeyMaxQueue() {
+export function getGooeyMaxQueue() {
   return _maxQueue
 }
 
 let _queueOverflow: 'drop-oldest' | 'drop-newest' = 'drop-oldest'
 
-export function setGoeyQueueOverflow(strategy: 'drop-oldest' | 'drop-newest') {
+export function setGooeyQueueOverflow(strategy: 'drop-oldest' | 'drop-newest') {
   _queueOverflow = strategy
 }
 
-export function getGoeyQueueOverflow() {
+export function getGooeyQueueOverflow() {
   return _queueOverflow
 }
 
 let _showProgress = false
 
-export function setGoeyShowProgress(show: boolean) {
+export function setGooeyShowProgress(show: boolean) {
   _showProgress = show
 }
 
-export function getGoeyShowProgress() {
+export function getGooeyShowProgress() {
   return _showProgress
 }
 

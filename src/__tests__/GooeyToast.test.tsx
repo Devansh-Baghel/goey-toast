@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { GoeyToast } from '../components/GoeyToast'
-import { setGoeyTheme, setGoeyDir, setGoeyPosition } from '../context'
+import { GooeyToast } from '../components/GooeyToast'
+import { setGooeyTheme, setGooeyDir, setGooeyPosition } from '../context'
 
 // Helper to mock matchMedia for reduced motion tests
 function mockReducedMotion(enabled: boolean) {
@@ -13,22 +13,22 @@ function mockReducedMotion(enabled: boolean) {
   })))
 }
 
-describe('GoeyToast', () => {
+describe('GooeyToast', () => {
   beforeEach(() => { vi.useFakeTimers() })
   afterEach(() => {
     vi.useRealTimers()
     vi.unstubAllGlobals()
-    setGoeyTheme('light')
+    setGooeyTheme('light')
   })
 
   it('renders title text', () => {
-    render(<GoeyToast title="Loading..." type="success" phase="loading" />)
+    render(<GooeyToast title="Loading..." type="success" phase="loading" />)
     expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
 
   it('renders in compact pill shape during loading phase', () => {
     const { container } = render(
-      <GoeyToast title="Loading..." type="success" phase="loading" />
+      <GooeyToast title="Loading..." type="success" phase="loading" />
     )
     const contentEl = container.querySelector('[class*="content"]') as HTMLElement
     expect(contentEl.className).toContain('Compact')
@@ -37,7 +37,7 @@ describe('GoeyToast', () => {
 
   it('renders in compact pill shape for result without description', () => {
     const { container } = render(
-      <GoeyToast title="Done!" type="success" phase="success" />
+      <GooeyToast title="Done!" type="success" phase="success" />
     )
     const contentEl = container.querySelector('[class*="content"]') as HTMLElement
     expect(contentEl.className).toContain('Compact')
@@ -45,7 +45,7 @@ describe('GoeyToast', () => {
 
   it('renders in expanded shape when description is provided', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Done!"
         description="Your file was saved."
         type="success"
@@ -62,7 +62,7 @@ describe('GoeyToast', () => {
   it('renders action button when action is provided', () => {
     const onClick = vi.fn()
     render(
-      <GoeyToast
+      <GooeyToast
         title="Error"
         description="Something went wrong."
         type="error"
@@ -78,7 +78,7 @@ describe('GoeyToast', () => {
   it('calls action onClick when button is clicked', () => {
     const onClick = vi.fn()
     render(
-      <GoeyToast
+      <GooeyToast
         title="Error"
         description="Something went wrong."
         type="error"
@@ -93,19 +93,19 @@ describe('GoeyToast', () => {
   })
 
   it('does not render description when not provided', () => {
-    render(<GoeyToast title="Done!" type="success" phase="success" />)
+    render(<GooeyToast title="Done!" type="success" phase="success" />)
     const desc = document.querySelector('[class*="description"]')
     expect(desc).toBeNull()
   })
 
   it('does not render action button when action is not provided', () => {
-    render(<GoeyToast title="Done!" type="success" phase="success" />)
+    render(<GooeyToast title="Done!" type="success" phase="success" />)
     expect(screen.queryByRole('button')).toBeNull()
   })
 
   it('renders custom icon when provided', () => {
     render(
-      <GoeyToast
+      <GooeyToast
         title="Custom"
         type="info"
         phase="info"
@@ -117,7 +117,7 @@ describe('GoeyToast', () => {
 
   it('renders ReactNode description', () => {
     render(
-      <GoeyToast
+      <GooeyToast
         title="Done!"
         description={<span data-testid="custom-desc">Rich content</span>}
         type="success"
@@ -131,7 +131,7 @@ describe('GoeyToast', () => {
 
   it('applies classNames to wrapper element', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Styled"
         type="info"
         phase="info"
@@ -144,7 +144,7 @@ describe('GoeyToast', () => {
 
   it('applies classNames to content, header, title, and icon elements', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Styled"
         type="info"
         phase="info"
@@ -165,7 +165,7 @@ describe('GoeyToast', () => {
 
   it('applies classNames to description element', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Styled"
         description="Some text"
         type="info"
@@ -180,7 +180,7 @@ describe('GoeyToast', () => {
   it('applies classNames to action wrapper and button', () => {
     const onClick = vi.fn()
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Styled"
         description="Some text"
         type="error"
@@ -197,7 +197,7 @@ describe('GoeyToast', () => {
 
   it('uses custom fillColor for SVG blob', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Dark"
         type="info"
         phase="info"
@@ -210,7 +210,7 @@ describe('GoeyToast', () => {
 
   it('uses default fillColor when not provided', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Default"
         type="info"
         phase="info"
@@ -223,7 +223,7 @@ describe('GoeyToast', () => {
   describe('ARIA accessibility', () => {
     it('sets role="status" and aria-live="polite" for success toasts', () => {
       const { container } = render(
-        <GoeyToast title="Done!" type="success" phase="success" />
+        <GooeyToast title="Done!" type="success" phase="success" />
       )
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper.getAttribute('role')).toBe('status')
@@ -233,7 +233,7 @@ describe('GoeyToast', () => {
 
     it('sets role="status" and aria-live="polite" for info toasts', () => {
       const { container } = render(
-        <GoeyToast title="Info" type="info" phase="info" />
+        <GooeyToast title="Info" type="info" phase="info" />
       )
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper.getAttribute('role')).toBe('status')
@@ -242,7 +242,7 @@ describe('GoeyToast', () => {
 
     it('sets role="status" and aria-live="polite" for default toasts', () => {
       const { container } = render(
-        <GoeyToast title="Hello" type="default" phase="default" />
+        <GooeyToast title="Hello" type="default" phase="default" />
       )
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper.getAttribute('role')).toBe('status')
@@ -251,7 +251,7 @@ describe('GoeyToast', () => {
 
     it('sets role="alert" and aria-live="assertive" for error toasts', () => {
       const { container } = render(
-        <GoeyToast title="Error!" type="error" phase="error" />
+        <GooeyToast title="Error!" type="error" phase="error" />
       )
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper.getAttribute('role')).toBe('alert')
@@ -261,7 +261,7 @@ describe('GoeyToast', () => {
 
     it('sets role="alert" and aria-live="assertive" for warning toasts', () => {
       const { container } = render(
-        <GoeyToast title="Warning!" type="warning" phase="warning" />
+        <GooeyToast title="Warning!" type="warning" phase="warning" />
       )
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper.getAttribute('role')).toBe('alert')
@@ -270,7 +270,7 @@ describe('GoeyToast', () => {
 
     it('hides SVG blob from screen readers with aria-hidden', () => {
       const { container } = render(
-        <GoeyToast title="Done!" type="success" phase="success" />
+        <GooeyToast title="Done!" type="success" phase="success" />
       )
       const svg = container.querySelector('svg')
       expect(svg?.getAttribute('aria-hidden')).toBe('true')
@@ -281,7 +281,7 @@ describe('GoeyToast', () => {
     it('expands immediately with no delay when reduced motion is preferred', () => {
       mockReducedMotion(true)
       const { container } = render(
-        <GoeyToast
+        <GooeyToast
           title="Done!"
           description="Your file was saved."
           type="success"
@@ -298,7 +298,7 @@ describe('GoeyToast', () => {
     it('still renders title and description correctly with reduced motion', () => {
       mockReducedMotion(true)
       render(
-        <GoeyToast
+        <GooeyToast
           title="Info"
           description="Details here."
           type="info"
@@ -314,7 +314,7 @@ describe('GoeyToast', () => {
       mockReducedMotion(true)
       const onClick = vi.fn()
       render(
-        <GoeyToast
+        <GooeyToast
           title="Error"
           description="Something went wrong."
           type="error"
@@ -332,7 +332,7 @@ describe('GoeyToast', () => {
     it('renders compact pill without motion when no description', () => {
       mockReducedMotion(true)
       const { container } = render(
-        <GoeyToast title="Done!" type="success" phase="success" />
+        <GooeyToast title="Done!" type="success" phase="success" />
       )
       const contentEl = container.querySelector('[class*="content"]') as HTMLElement
       expect(contentEl.className).toContain('Compact')
@@ -341,27 +341,27 @@ describe('GoeyToast', () => {
 
   describe('dark mode', () => {
     it('uses dark fillColor (#1a1a1a) when theme is dark and no custom fillColor', () => {
-      setGoeyTheme('dark')
+      setGooeyTheme('dark')
       const { container } = render(
-        <GoeyToast title="Dark" type="info" phase="info" />
+        <GooeyToast title="Dark" type="info" phase="info" />
       )
       const path = container.querySelector('svg path')!
       expect(path.getAttribute('fill')).toBe('#1a1a1a')
     })
 
     it('uses light fillColor (#ffffff) when theme is light and no custom fillColor', () => {
-      setGoeyTheme('light')
+      setGooeyTheme('light')
       const { container } = render(
-        <GoeyToast title="Light" type="info" phase="info" />
+        <GooeyToast title="Light" type="info" phase="info" />
       )
       const path = container.querySelector('svg path')!
       expect(path.getAttribute('fill')).toBe('#ffffff')
     })
 
     it('respects explicit fillColor even in dark mode', () => {
-      setGoeyTheme('dark')
+      setGooeyTheme('dark')
       const { container } = render(
-        <GoeyToast title="Custom" type="info" phase="info" fillColor="#ff0000" />
+        <GooeyToast title="Custom" type="info" phase="info" fillColor="#ff0000" />
       )
       const path = container.querySelector('svg path')!
       expect(path.getAttribute('fill')).toBe('#ff0000')
@@ -370,15 +370,15 @@ describe('GoeyToast', () => {
 
   describe('RTL layout support', () => {
     afterEach(() => {
-      setGoeyDir('ltr')
-      setGoeyPosition('bottom-right')
+      setGooeyDir('ltr')
+      setGooeyPosition('bottom-right')
     })
 
     it('flips right-position to left-side visual in RTL mode', () => {
-      setGoeyPosition('bottom-right')
-      setGoeyDir('rtl')
+      setGooeyPosition('bottom-right')
+      setGooeyDir('rtl')
       const { container } = render(
-        <GoeyToast title="RTL Right" type="info" phase="info" />
+        <GooeyToast title="RTL Right" type="info" phase="info" />
       )
       const wrapper = container.firstChild as HTMLElement
       // In RTL with bottom-right position, the toast should NOT have marginLeft:auto/scaleX(-1)
@@ -388,10 +388,10 @@ describe('GoeyToast', () => {
     })
 
     it('flips left-position to right-side visual in RTL mode', () => {
-      setGoeyPosition('bottom-left')
-      setGoeyDir('rtl')
+      setGooeyPosition('bottom-left')
+      setGooeyDir('rtl')
       const { container } = render(
-        <GoeyToast title="RTL Left" type="info" phase="info" />
+        <GooeyToast title="RTL Left" type="info" phase="info" />
       )
       const wrapper = container.firstChild as HTMLElement
       // In RTL with bottom-left position, the toast should have right-side styles
@@ -400,10 +400,10 @@ describe('GoeyToast', () => {
     })
 
     it('keeps center position unchanged in RTL mode', () => {
-      setGoeyPosition('bottom-center')
-      setGoeyDir('rtl')
+      setGooeyPosition('bottom-center')
+      setGooeyDir('rtl')
       const { container } = render(
-        <GoeyToast title="RTL Center" type="info" phase="info" />
+        <GooeyToast title="RTL Center" type="info" phase="info" />
       )
       const wrapper = container.firstChild as HTMLElement
       // Center position should remain centered in RTL
@@ -411,10 +411,10 @@ describe('GoeyToast', () => {
     })
 
     it('does not flip positions in LTR mode', () => {
-      setGoeyPosition('bottom-right')
-      setGoeyDir('ltr')
+      setGooeyPosition('bottom-right')
+      setGooeyDir('ltr')
       const { container } = render(
-        <GoeyToast title="LTR Right" type="info" phase="info" />
+        <GooeyToast title="LTR Right" type="info" phase="info" />
       )
       const wrapper = container.firstChild as HTMLElement
       // In LTR with bottom-right position, the toast should have right-side styles

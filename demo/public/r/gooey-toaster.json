@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "goey-toaster",
+  "type": "registry:ui",
+  "title": "Gooey Toaster",
+  "description": "Morphing blob toast notifications with organic pill-to-blob animations, promise tracking, and full customization.",
+  "author": "anl331 (https://github.com/anl331)",
+  "dependencies": ["goey-toast", "framer-motion"],
+  "files": [
+    {
+      "path": "ui/goey-toaster.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport { GooeyToaster as GooeyToasterPrimitive, gooeyToast } from \"goey-toast\"\nimport type { GooeyToasterProps } from \"goey-toast\"\nimport \"goey-toast/styles.css\"\n\nexport { gooeyToast }\nexport type { GooeyToasterProps }\nexport type {\n  GooeyToastOptions,\n  GooeyPromiseData,\n  GooeyToastAction,\n  GooeyToastClassNames,\n  GooeyToastTimings,\n} from \"goey-toast\"\n\nfunction GooeyToaster(props: GooeyToasterProps) {\n  return <GooeyToasterPrimitive position=\"bottom-right\" {...props} />\n}\n\nexport { GooeyToaster }\n"
+    }
+  ],
+  "docs": "## Installation\n\n```bash\nnpx shadcn@latest add https://goey-toast.vercel.app/r/goey-toaster.json\n```\n\n## Usage\n\nAdd the `<GooeyToaster />` component to your root layout:\n\n```tsx\nimport { GooeyToaster } from \"@/components/ui/goey-toaster\"\n\nexport default function RootLayout({ children }) {\n  return (\n    <html>\n      <body>\n        {children}\n        <GooeyToaster />\n      </body>\n    </html>\n  )\n}\n```\n\nThen trigger toasts anywhere:\n\n```tsx\nimport { gooeyToast } from \"@/components/ui/goey-toaster\"\n\ngooeyToast.success(\"Saved!\")\ngooeyToast.error(\"Something went wrong\")\ngooeyToast.promise(fetchData(), {\n  loading: \"Loading...\",\n  success: \"Done!\",\n  error: \"Failed\",\n})\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| position | `top-left` \\| `top-right` \\| `bottom-left` \\| `bottom-right` | `bottom-right` | Toast position |\n| duration | `number` | — | Default display duration (ms) |\n| gap | `number` | `14` | Gap between toasts (px) |\n| offset | `number \\| string` | `24px` | Distance from edge |\n| theme | `light` \\| `dark` | `light` | Color theme |\n\nSee [full documentation](https://goey-toast.vercel.app) for all options.\n"
+}

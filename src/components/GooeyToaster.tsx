@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { Toaster } from 'sonner'
-import type { GoeyToasterProps } from '../types'
+import type { GooeyToasterProps } from '../types'
 import { animationPresets } from '../presets'
-import { setGoeyPosition, setGoeyDir, setGoeySpring, setGoeyBounce, setGoeyVisibleToasts, setContainerHovered, setGoeySwipeToDismiss, setGoeyCloseOnEscape, setGoeyTheme, setGoeyMaxQueue, setGoeyQueueOverflow, setGoeyShowProgress } from '../context'
-import { goeyToast, _getMostRecentActiveId } from '../goey-toast'
+import { setGooeyPosition, setGooeyDir, setGooeySpring, setGooeyBounce, setGooeyVisibleToasts, setContainerHovered, setGooeySwipeToDismiss, setGooeyCloseOnEscape, setGooeyTheme, setGooeyMaxQueue, setGooeyQueueOverflow, setGooeyShowProgress } from '../context'
+import { gooeyToast, _getMostRecentActiveId } from '../gooey-toast'
 import { AriaLiveAnnouncer } from './AriaLiveAnnouncer'
 
-export function GoeyToaster({
+export function GooeyToaster({
   position = 'bottom-right',
   duration,
   gap = 14,
@@ -26,37 +26,37 @@ export function GoeyToaster({
   maxQueue = Infinity,
   queueOverflow = 'drop-oldest',
   showProgress = false,
-}: GoeyToasterProps) {
+}: GooeyToasterProps) {
   const presetConfig = preset ? animationPresets[preset] : undefined
   const resolvedSpring = spring ?? presetConfig?.spring ?? true
   const resolvedBounce = bounce ?? presetConfig?.bounce
 
   useEffect(() => {
-    setGoeyPosition(position)
+    setGooeyPosition(position)
   }, [position])
 
   useEffect(() => {
-    setGoeyDir(dir ?? 'ltr')
+    setGooeyDir(dir ?? 'ltr')
   }, [dir])
 
   useEffect(() => {
-    setGoeyTheme(theme)
+    setGooeyTheme(theme)
   }, [theme])
 
   useEffect(() => {
-    setGoeySpring(resolvedSpring)
+    setGooeySpring(resolvedSpring)
   }, [resolvedSpring])
 
   useEffect(() => {
-    setGoeyBounce(resolvedBounce)
+    setGooeyBounce(resolvedBounce)
   }, [resolvedBounce])
 
   useEffect(() => {
-    setGoeySwipeToDismiss(swipeToDismiss)
+    setGooeySwipeToDismiss(swipeToDismiss)
   }, [swipeToDismiss])
 
   useEffect(() => {
-    setGoeyCloseOnEscape(closeOnEscape)
+    setGooeyCloseOnEscape(closeOnEscape)
   }, [closeOnEscape])
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export function GoeyToaster({
       if (e.key === 'Escape') {
         const recentId = _getMostRecentActiveId()
         if (recentId != null) {
-          goeyToast.dismiss(recentId)
+          gooeyToast.dismiss(recentId)
         }
       }
     }
@@ -76,22 +76,22 @@ export function GoeyToaster({
   }, [closeOnEscape])
 
   useEffect(() => {
-    setGoeyVisibleToasts(visibleToasts ?? 3)
+    setGooeyVisibleToasts(visibleToasts ?? 3)
   }, [visibleToasts])
 
   useEffect(() => {
-    setGoeyMaxQueue(maxQueue)
+    setGooeyMaxQueue(maxQueue)
   }, [maxQueue])
 
   useEffect(() => {
-    setGoeyQueueOverflow(queueOverflow)
+    setGooeyQueueOverflow(queueOverflow)
   }, [queueOverflow])
 
   useEffect(() => {
-    setGoeyShowProgress(showProgress)
+    setGooeyShowProgress(showProgress)
   }, [showProgress])
 
-  // Detect hover on the Sonner container and broadcast to all GoeyToast instances.
+  // Detect hover on the Sonner container and broadcast to all GooeyToast instances.
   // Uses Sonner's `data-expanded` attribute (set per-toast <li>) as the hover signal
   // rather than raw mouseenter/mouseleave on the <ol>. This is more reliable because
   // Sonner manages it with onMouseEnter + onMouseMove + onMouseLeave, and it survives
@@ -148,7 +148,7 @@ export function GoeyToaster({
     if (process.env.NODE_ENV !== 'development') return
 
     const el = document.createElement('div')
-    el.setAttribute('data-goey-toast-css', '')
+    el.setAttribute('data-gooey-toast-css', '')
     el.style.position = 'absolute'
     el.style.width = '0'
     el.style.height = '0'
@@ -156,12 +156,12 @@ export function GoeyToaster({
     el.style.pointerEvents = 'none'
     document.body.appendChild(el)
 
-    const value = getComputedStyle(el).getPropertyValue('--goey-toast')
+    const value = getComputedStyle(el).getPropertyValue('--gooey-toast')
     document.body.removeChild(el)
 
     if (!value) {
       console.warn(
-        '[goey-toast] Styles not found. Make sure to import the CSS:\n\n' +
+        '[gooey-toast] Styles not found. Make sure to import the CSS:\n\n' +
         '  import "goey-toast/styles.css";\n'
       )
     }

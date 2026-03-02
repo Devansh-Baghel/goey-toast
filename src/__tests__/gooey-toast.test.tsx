@@ -25,9 +25,9 @@ vi.mock('sonner', () => ({
 
 import { toast } from 'sonner'
 import { SuccessIcon, ErrorIcon, WarningIcon, InfoIcon, SpinnerIcon } from '../icons'
-import { GoeyToast } from '../components/GoeyToast'
-import { GoeyToaster } from '../components/GoeyToaster'
-import { goeyToast, _resetQueue } from '../goey-toast'
+import { GooeyToast } from '../components/GooeyToast'
+import { GooeyToaster } from '../components/GooeyToaster'
+import { gooeyToast, _resetQueue } from '../gooey-toast'
 
 describe('Icon components', () => {
   it('SuccessIcon renders an SVG with correct size and stroke', () => {
@@ -76,13 +76,13 @@ describe('Icon components', () => {
   })
 })
 
-describe('GoeyToast component', () => {
+describe('GooeyToast component', () => {
   beforeEach(() => { vi.useFakeTimers() })
   afterEach(() => { vi.useRealTimers() })
 
   it('renders in compact mode with title only', () => {
     render(
-      <GoeyToast
+      <GooeyToast
         title="Success!"
         type="success"
         phase="success"
@@ -93,7 +93,7 @@ describe('GoeyToast component', () => {
 
   it('renders in expanded mode with title and description', () => {
     render(
-      <GoeyToast
+      <GooeyToast
         title="Warning"
         description="Something needs attention"
         type="warning"
@@ -108,7 +108,7 @@ describe('GoeyToast component', () => {
   it('renders action button with correct label', () => {
     const onClick = vi.fn()
     render(
-      <GoeyToast
+      <GooeyToast
         title="Error occurred"
         type="error"
         phase="error"
@@ -122,7 +122,7 @@ describe('GoeyToast component', () => {
 
   it('renders spinner icon in loading state', () => {
     const { container } = render(
-      <GoeyToast
+      <GooeyToast
         title="Loading..."
         type="info"
         phase="loading"
@@ -137,7 +137,7 @@ describe('GoeyToast component', () => {
   it('calls action onClick when button is clicked', () => {
     const onClick = vi.fn()
     render(
-      <GoeyToast
+      <GooeyToast
         title="Error"
         type="error"
         phase="error"
@@ -151,44 +151,44 @@ describe('GoeyToast component', () => {
   })
 })
 
-describe('GoeyToaster', () => {
+describe('GooeyToaster', () => {
   it('renders without crashing', () => {
-    const { container } = render(<GoeyToaster />)
+    const { container } = render(<GooeyToaster />)
     expect(container).toBeTruthy()
   })
 })
 
-describe('goeyToast API', () => {
+describe('gooeyToast API', () => {
   it('has success method as a function', () => {
-    expect(typeof goeyToast.success).toBe('function')
+    expect(typeof gooeyToast.success).toBe('function')
   })
 
   it('has error method as a function', () => {
-    expect(typeof goeyToast.error).toBe('function')
+    expect(typeof gooeyToast.error).toBe('function')
   })
 
   it('has warning method as a function', () => {
-    expect(typeof goeyToast.warning).toBe('function')
+    expect(typeof gooeyToast.warning).toBe('function')
   })
 
   it('has info method as a function', () => {
-    expect(typeof goeyToast.info).toBe('function')
+    expect(typeof gooeyToast.info).toBe('function')
   })
 
   it('has promise method as a function', () => {
-    expect(typeof goeyToast.promise).toBe('function')
+    expect(typeof gooeyToast.promise).toBe('function')
   })
 
   it('has dismiss method as a function', () => {
-    expect(typeof goeyToast.dismiss).toBe('function')
+    expect(typeof gooeyToast.dismiss).toBe('function')
   })
 
   it('has update method as a function', () => {
-    expect(typeof goeyToast.update).toBe('function')
+    expect(typeof gooeyToast.update).toBe('function')
   })
 })
 
-describe('goeyToast.promise', () => {
+describe('gooeyToast.promise', () => {
   const mockCustom = toast.custom as ReturnType<typeof vi.fn>
 
   beforeEach(() => {
@@ -196,15 +196,15 @@ describe('goeyToast.promise', () => {
     _resetQueue()
   })
 
-  function renderPromiseToast<T>(promise: Promise<T>, data: Parameters<typeof goeyToast.promise<T>>[1]) {
-    goeyToast.promise(promise, data)
+  function renderPromiseToast<T>(promise: Promise<T>, data: Parameters<typeof gooeyToast.promise<T>>[1]) {
+    gooeyToast.promise(promise, data)
     const renderFn = mockCustom.mock.calls[0][0]
     return render(renderFn())
   }
 
   it('calls toast.custom when promise is invoked', () => {
     const promise = new Promise(() => {})
-    goeyToast.promise(promise, {
+    gooeyToast.promise(promise, {
       loading: 'Loading...',
       success: 'Done!',
       error: 'Failed',
@@ -218,7 +218,7 @@ describe('goeyToast.promise', () => {
 
   it('passes Infinity duration when description is provided', () => {
     const promise = new Promise(() => {})
-    goeyToast.promise(promise, {
+    gooeyToast.promise(promise, {
       loading: 'Loading...',
       success: 'Done!',
       error: 'Failed',
@@ -232,7 +232,7 @@ describe('goeyToast.promise', () => {
 
   it('passes Infinity duration when timing.displayDuration is set', () => {
     const promise = new Promise(() => {})
-    goeyToast.promise(promise, {
+    gooeyToast.promise(promise, {
       loading: 'Loading...',
       success: 'Done!',
       error: 'Failed',
@@ -470,7 +470,7 @@ describe('goeyToast.promise', () => {
   })
 })
 
-describe('goeyToast.update', () => {
+describe('gooeyToast.update', () => {
   const mockCustom = toast.custom as ReturnType<typeof vi.fn>
 
   beforeEach(() => {
@@ -483,8 +483,8 @@ describe('goeyToast.update', () => {
     vi.useRealTimers()
   })
 
-  function createAndRenderToast(title: string, options?: Parameters<typeof goeyToast>[1]) {
-    const id = goeyToast(title, options)
+  function createAndRenderToast(title: string, options?: Parameters<typeof gooeyToast>[1]) {
+    const id = gooeyToast(title, options)
     const renderFn = mockCustom.mock.calls[0][0]
     return { id, ...render(renderFn()) }
   }
@@ -493,7 +493,7 @@ describe('goeyToast.update', () => {
     const { id } = createAndRenderToast('Original title')
     expect(screen.getByText('Original title')).toBeInTheDocument()
 
-    act(() => { goeyToast.update(id, { title: 'Updated title' }) })
+    act(() => { gooeyToast.update(id, { title: 'Updated title' }) })
 
     expect(screen.getByText('Updated title')).toBeInTheDocument()
   })
@@ -503,7 +503,7 @@ describe('goeyToast.update', () => {
     act(() => { vi.advanceTimersByTime(400) })
     expect(screen.getByText('Original description')).toBeInTheDocument()
 
-    act(() => { goeyToast.update(id, { description: 'Updated description' }) })
+    act(() => { gooeyToast.update(id, { description: 'Updated description' }) })
 
     expect(screen.getByText('Updated description')).toBeInTheDocument()
   })
@@ -513,7 +513,7 @@ describe('goeyToast.update', () => {
     // Default type renders with role="status"
     expect(screen.getByRole('status')).toBeInTheDocument()
 
-    act(() => { goeyToast.update(id, { type: 'error' }) })
+    act(() => { gooeyToast.update(id, { type: 'error' }) })
 
     // Error type renders with role="alert"
     expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -526,7 +526,7 @@ describe('goeyToast.update', () => {
     expect(screen.getByRole('button', { name: 'Original' })).toBeInTheDocument()
 
     const newOnClick = vi.fn()
-    act(() => { goeyToast.update(id, { action: { label: 'Updated', onClick: newOnClick } }) })
+    act(() => { gooeyToast.update(id, { action: { label: 'Updated', onClick: newOnClick } }) })
 
     expect(screen.getByRole('button', { name: 'Updated' })).toBeInTheDocument()
   })
@@ -535,7 +535,7 @@ describe('goeyToast.update', () => {
     createAndRenderToast('Title')
     // Should not throw
     expect(() => {
-      goeyToast.update('nonexistent-id', { title: 'New title' })
+      gooeyToast.update('nonexistent-id', { title: 'New title' })
     }).not.toThrow()
     expect(screen.getByText('Title')).toBeInTheDocument()
   })
@@ -546,7 +546,7 @@ describe('goeyToast.update', () => {
     expect(screen.getByText('Old title')).toBeInTheDocument()
 
     act(() => {
-      goeyToast.update(id, {
+      gooeyToast.update(id, {
         title: 'New title',
         description: 'New description',
         type: 'success',

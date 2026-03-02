@@ -6,7 +6,7 @@
     {
       "name": "goey-toaster",
       "type": "registry:ui",
-      "title": "Goey Toaster",
+      "title": "Gooey Toaster",
       "description": "Morphing blob toast notifications with organic pill-to-blob animations, promise tracking, and full customization.",
       "dependencies": ["goey-toast", "framer-motion"],
       "files": [

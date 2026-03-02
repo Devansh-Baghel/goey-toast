@@ -1,31 +1,31 @@
 import { useRef, useState, useEffect, useLayoutEffect as useLayoutEffectOrig, useCallback, useMemo, type FC, type ReactNode } from 'react'
 import { motion, AnimatePresence, animate } from 'framer-motion'
 import { toast as sonnerToast } from 'sonner'
-import type { GoeyToastAction, GoeyToastClassNames, GoeyToastPhase, GoeyToastTimings, GoeyToastType } from '../types'
+import type { GooeyToastAction, GooeyToastClassNames, GooeyToastPhase, GooeyToastTimings, GooeyToastType } from '../types'
 import type { AnimationPresetName } from '../presets'
 import { animationPresets } from '../presets'
-import { getGoeyPosition, getGoeyDir, getGoeySpring, getGoeyBounce, getGoeySwipeToDismiss, getGoeyTheme, getGoeyShowProgress, subscribeContainerHovered, getContainerHovered } from '../context'
+import { getGooeyPosition, getGooeyDir, getGooeySpring, getGooeyBounce, getGooeySwipeToDismiss, getGooeyTheme, getGooeyShowProgress, subscribeContainerHovered, getContainerHovered } from '../context'
 import { DefaultIcon, SuccessIcon, ErrorIcon, WarningIcon, InfoIcon, SpinnerIcon } from '../icons'
 import { usePrefersReducedMotion } from '../usePrefersReducedMotion'
-import { styles } from './goey-styles'
+import { styles } from './gooey-styles'
 
 // SSR-safe useLayoutEffect: avoids React warning when rendering on the server.
 // Falls back to useEffect during SSR (no DOM to measure anyway).
 const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffectOrig : useEffect
 
-export interface GoeyToastProps {
+export interface GooeyToastProps {
   title: string
   description?: ReactNode
-  type: GoeyToastType
-  action?: GoeyToastAction
+  type: GooeyToastType
+  action?: GooeyToastAction
   icon?: ReactNode
-  phase: GoeyToastPhase
-  classNames?: GoeyToastClassNames
+  phase: GooeyToastPhase
+  classNames?: GooeyToastClassNames
   fillColor?: string
   borderColor?: string
   borderWidth?: number
-  timing?: GoeyToastTimings
+  timing?: GooeyToastTimings
   preset?: AnimationPresetName
   spring?: boolean
   bounce?: number
@@ -33,7 +33,7 @@ export interface GoeyToastProps {
   toastId?: string | number
 }
 
-const phaseIconMap: Record<Exclude<GoeyToastPhase, 'loading'>, FC<{ size?: number; className?: string }>> = {
+const phaseIconMap: Record<Exclude<GooeyToastPhase, 'loading'>, FC<{ size?: number; className?: string }>> = {
   default: DefaultIcon,
   success: SuccessIcon,
   error: ErrorIcon,
@@ -41,7 +41,7 @@ const phaseIconMap: Record<Exclude<GoeyToastPhase, 'loading'>, FC<{ size?: numbe
   info: InfoIcon,
 }
 
-const titleColorMap: Record<GoeyToastPhase, string> = {
+const titleColorMap: Record<GooeyToastPhase, string> = {
   loading: styles.titleLoading,
   default: styles.titleDefault,
   success: styles.titleSuccess,
@@ -50,7 +50,7 @@ const titleColorMap: Record<GoeyToastPhase, string> = {
   info: styles.titleInfo,
 }
 
-const actionColorMap: Record<GoeyToastPhase, string> = {
+const actionColorMap: Record<GooeyToastPhase, string> = {
   loading: styles.actionInfo,
   default: styles.actionDefault,
   success: styles.actionSuccess,
@@ -59,7 +59,7 @@ const actionColorMap: Record<GoeyToastPhase, string> = {
   info: styles.actionInfo,
 }
 
-const progressColorMap: Record<GoeyToastPhase, string> = {
+const progressColorMap: Record<GooeyToastPhase, string> = {
   loading: styles.progressInfo,
   default: styles.progressDefault,
   success: styles.progressSuccess,
@@ -86,7 +86,7 @@ function squishSpring(durationSec: number, defaultDur: number, bounce = 0.4) {
 
 /**
  * Singleton MutationObserver registry — one observer per <ol> element shared
- * across all GoeyToast instances mounted under that list. Each toast registers
+ * across all GooeyToast instances mounted under that list. Each toast registers
  * its own callback; the shared observer batches mutations via rAF and invokes
  * every registered callback once per frame.
  */
@@ -135,7 +135,7 @@ function registerSonnerObserver(ol: Element, callback: () => void) {
  * so our morphing toasts stack correctly.
  *
  * When expanded (hovered), CSS transitions on [data-expanded="true"] are
- * overridden (GoeyToast.css) so writing these values takes effect instantly.
+ * overridden (GooeyToast.css) so writing these values takes effect instantly.
  *
  * DOM order: oldest toast at index 0, newest (front) at index n-1.
  * Front toast has --offset: 0; each older toast accumulates the heights of all
@@ -168,7 +168,7 @@ function syncSonnerHeights(
 
   // When expanded (hovered), temporarily kill CSS transitions so offset
   // corrections apply in this paint — prevents overlap flash. The CSS shortens
-  // transitions to 150ms (GoeyToast.css) for Sonner's own changes, but our
+  // transitions to 150ms (GooeyToast.css) for Sonner's own changes, but our
   // corrections must be truly instant since getBoundingClientRect above forces
   // a layout that "locks in" stale values.
   const isExpanded = includeOffsets && toasts[0]?.getAttribute('data-expanded') === 'true'
@@ -361,7 +361,7 @@ const morphPathCenter = memoizePath(morphPathCenterRaw)
 // Smooth easing curve for non-spring animations
 const SMOOTH_EASE = [0.4, 0, 0.2, 1] as const
 
-export const GoeyToast: FC<GoeyToastProps> = ({
+export const GooeyToast: FC<GooeyToastProps> = ({
   title,
   description,
   action,
@@ -378,10 +378,10 @@ export const GoeyToast: FC<GoeyToastProps> = ({
   showProgress: showProgressProp,
   toastId,
 }) => {
-  const theme = getGoeyTheme()
+  const theme = getGooeyTheme()
   const fillColor = fillColorProp ?? (theme === 'dark' ? '#1a1a1a' : '#ffffff')
-  const position = getGoeyPosition()
-  const dir = getGoeyDir()
+  const position = getGooeyPosition()
+  const dir = getGooeyDir()
   const posIsRight = position?.includes('right') ?? false
   const isCenter = position?.includes('center') ?? false
   // In RTL, left-positioned toasts visually behave like right-positioned ones and vice versa
@@ -389,9 +389,9 @@ export const GoeyToast: FC<GoeyToastProps> = ({
   const prefersReducedMotion = usePrefersReducedMotion()
   // Explicit props > per-toast preset > global context values > defaults
   const presetConfig = preset ? animationPresets[preset] : undefined
-  const useSpring = springProp ?? presetConfig?.spring ?? getGoeySpring()
-  const bounceVal = bounceProp ?? presetConfig?.bounce ?? getGoeyBounce() ?? 0.4
-  const showProgress = showProgressProp ?? getGoeyShowProgress()
+  const useSpring = springProp ?? presetConfig?.spring ?? getGooeySpring()
+  const bounceVal = bounceProp ?? presetConfig?.bounce ?? getGooeyBounce() ?? 0.4
+  const showProgress = showProgressProp ?? getGooeyShowProgress()
 
   // Action success override state
   const [actionSuccess, setActionSuccess] = useState<string | null>(null)
@@ -411,7 +411,7 @@ export const GoeyToast: FC<GoeyToastProps> = ({
 
   // Effective values (overridden when action success is active)
   const effectiveTitle = actionSuccess ?? title
-  const effectivePhase: GoeyToastPhase = actionSuccess ? 'success' : phase
+  const effectivePhase: GooeyToastPhase = actionSuccess ? 'success' : phase
   const effectiveDescription = actionSuccess ? undefined : description
   const effectiveAction = actionSuccess ? undefined : action
 
@@ -462,8 +462,8 @@ export const GoeyToast: FC<GoeyToastProps> = ({
     // cause flush to toggle between constraint branches (jitter).
     const t = Math.max(0, Math.min(1, morphTRef.current))
     // Read position and dir fresh each call so flush never uses a stale value
-    const pos = getGoeyPosition()
-    const d = getGoeyDir()
+    const pos = getGooeyPosition()
+    const d = getGooeyDir()
     const centerPos = pos?.includes('center') ?? false
     const posRight = pos?.includes('right') ?? false
     // In RTL, flip left/right visual behavior (center stays the same)
@@ -1048,7 +1048,7 @@ export const GoeyToast: FC<GoeyToastProps> = ({
 
     // Per-rAF sync: corrects --initial-height AND --offset every time Sonner
     // overwrites them with stale values from its React state.
-    // When expanded, CSS transitions are disabled (GoeyToast.css) so corrections
+    // When expanded, CSS transitions are disabled (GooeyToast.css) so corrections
     // apply instantly without re-targeting a CSS transition mid-flight.
     const unregister = registerSonnerObserver(ol, () => {
       syncSonnerHeights(wrapper, true)
@@ -1102,14 +1102,14 @@ export const GoeyToast: FC<GoeyToastProps> = ({
   const isSwipingRef = useRef(false)
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!getGoeySwipeToDismiss()) return
+    if (!getGooeySwipeToDismiss()) return
     const touch = e.touches[0]
     swipeStartRef.current = { x: touch.clientX, y: touch.clientY }
     isSwipingRef.current = false
   }, [])
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!swipeStartRef.current || !getGoeySwipeToDismiss()) return
+    if (!swipeStartRef.current || !getGooeySwipeToDismiss()) return
     const touch = e.touches[0]
     const dx = touch.clientX - swipeStartRef.current.x
     const dy = touch.clientY - swipeStartRef.current.y
@@ -1131,7 +1131,7 @@ export const GoeyToast: FC<GoeyToastProps> = ({
   }, [])
 
   const handleTouchEnd = useCallback(() => {
-    if (!getGoeySwipeToDismiss()) {
+    if (!getGooeySwipeToDismiss()) {
       swipeStartRef.current = null
       return
     }
@@ -1308,7 +1308,7 @@ export const GoeyToast: FC<GoeyToastProps> = ({
           >
             <div
               className={`${styles.progressBar} ${progressColorMap[effectivePhase]}`}
-              style={{ '--goey-progress-duration': `${progressDelayRef.current || (timing?.displayDuration ?? DEFAULT_DISPLAY_DURATION)}ms` } as React.CSSProperties}
+              style={{ '--gooey-progress-duration': `${progressDelayRef.current || (timing?.displayDuration ?? DEFAULT_DISPLAY_DURATION)}ms` } as React.CSSProperties}
             />
           </div>
         )}

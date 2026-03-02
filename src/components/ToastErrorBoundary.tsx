@@ -17,7 +17,7 @@ export class ToastErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error('[GoeyToast] Rendering error:', error, errorInfo)
+      console.error('[GooeyToast] Rendering error:', error, errorInfo)
     }
   }
 

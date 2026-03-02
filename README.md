@@ -1,6 +1,6 @@
-# goey-toast
+# gooey-toast
 
-[![goey-toast](https://goey-toast.vercel.app/og-image.png)](https://goey-toast.vercel.app)
+[![gooey-toast](https://goey-toast.vercel.app/og-image.png)](https://goey-toast.vercel.app)
 
 **[Live Demo & Docs](https://goey-toast.vercel.app)**
 
@@ -19,8 +19,8 @@
 - Hover pause: hovering an expanded toast pauses the dismiss timer
 - Hover re-expand: hovering a collapsed pill re-expands the toast
 - Pre-dismiss collapse animation
-- In-place toast updates via `goeyToast.update()`
-- Dismiss by type filter: `goeyToast.dismiss({ type: 'error' })`
+- In-place toast updates via `gooeyToast.update()`
+- Dismiss by type filter: `gooeyToast.dismiss({ type: 'error' })`
 - Dark mode and RTL layout support
 - Animation presets: smooth, bouncy, subtle, snappy
 - Timestamp display on expanded toasts
@@ -70,14 +70,14 @@ Add this import once in your app's entry point (e.g., `main.tsx` or `App.tsx`). 
 ## Quick Start
 
 ```tsx
-import { GoeyToaster, goeyToast } from 'goey-toast'
+import { GooeyToaster, gooeyToast } from 'goey-toast'
 import 'goey-toast/styles.css'
 
 function App() {
   return (
     <>
-      <GoeyToaster position="bottom-right" />
-      <button onClick={() => goeyToast.success('Saved!')}>
+      <GooeyToaster position="bottom-right" />
+      <button onClick={() => gooeyToast.success('Saved!')}>
         Save
       </button>
     </>
@@ -87,30 +87,30 @@ function App() {
 
 ## API Reference
 
-### `goeyToast` Methods
+### `gooeyToast` Methods
 
 ```ts
-goeyToast(title, options?)              // default (neutral)
-goeyToast.success(title, options?)      // green
-goeyToast.error(title, options?)        // red
-goeyToast.warning(title, options?)      // yellow
-goeyToast.info(title, options?)         // blue
-goeyToast.promise(promise, data)        // loading -> success/error
-goeyToast.update(id, options)           // update an existing toast in-place
-goeyToast.dismiss(idOrFilter?)          // dismiss one, by type, or all toasts
+gooeyToast(title, options?)              // default (neutral)
+gooeyToast.success(title, options?)      // green
+gooeyToast.error(title, options?)        // red
+gooeyToast.warning(title, options?)      // yellow
+gooeyToast.info(title, options?)         // blue
+gooeyToast.promise(promise, data)        // loading -> success/error
+gooeyToast.update(id, options)           // update an existing toast in-place
+gooeyToast.dismiss(idOrFilter?)          // dismiss one, by type, or all toasts
 ```
 
-#### `goeyToast.update(id, options)`
+#### `gooeyToast.update(id, options)`
 
 Updates an existing toast in-place without removing and re-creating it.
 
 ```tsx
-const id = goeyToast('Uploading...', {
+const id = gooeyToast('Uploading...', {
   icon: <SpinnerIcon />,
 })
 
 // Later, update the toast
-goeyToast.update(id, {
+gooeyToast.update(id, {
   title: 'Upload complete',
   type: 'success',
   description: '3 files uploaded.',
@@ -118,50 +118,50 @@ goeyToast.update(id, {
 })
 ```
 
-**`GoeyToastUpdateOptions`:**
+**`GooeyToastUpdateOptions`:**
 
 | Option        | Type              | Description                   |
 | ------------- | ----------------- | ----------------------------- |
 | `title`       | `string`          | New title text                |
 | `description` | `ReactNode`       | New body content              |
-| `type`        | `GoeyToastType`   | Change the toast type/color   |
-| `action`      | `GoeyToastAction` | New action button             |
+| `type`        | `GooeyToastType`   | Change the toast type/color   |
+| `action`      | `GooeyToastAction` | New action button             |
 | `icon`        | `ReactNode \| null` | Custom icon (pass `null` to clear) |
 
-#### `goeyToast.dismiss(idOrFilter?)`
+#### `gooeyToast.dismiss(idOrFilter?)`
 
 Dismiss a single toast by ID, all toasts of a given type, or all toasts at once.
 
 ```ts
 // Dismiss a specific toast
-goeyToast.dismiss(toastId)
+gooeyToast.dismiss(toastId)
 
 // Dismiss all error toasts
-goeyToast.dismiss({ type: 'error' })
+gooeyToast.dismiss({ type: 'error' })
 
 // Dismiss multiple types
-goeyToast.dismiss({ type: ['error', 'warning'] })
+gooeyToast.dismiss({ type: ['error', 'warning'] })
 
 // Dismiss all toasts
-goeyToast.dismiss()
+gooeyToast.dismiss()
 ```
 
-### `GoeyToastOptions`
+### `GooeyToastOptions`
 
-Options passed as the second argument to `goeyToast()` and type-specific methods.
+Options passed as the second argument to `gooeyToast()` and type-specific methods.
 
 | Option        | Type                 | Description                        |
 | ------------- | -------------------- | ---------------------------------- |
 | `description` | `ReactNode`          | Body content (string or component) |
-| `action`      | `GoeyToastAction`    | Action button configuration        |
+| `action`      | `GooeyToastAction`    | Action button configuration        |
 | `icon`        | `ReactNode`          | Custom icon override               |
 | `duration`    | `number`             | Display duration in ms             |
 | `id`          | `string \| number`   | Unique toast identifier            |
-| `classNames`  | `GoeyToastClassNames`| CSS class overrides                |
+| `classNames`  | `GooeyToastClassNames`| CSS class overrides                |
 | `fillColor`   | `string`             | Background color of the blob       |
 | `borderColor` | `string`             | Border color of the blob           |
 | `borderWidth` | `number`             | Border width in px (default 1.5)   |
-| `timing`      | `GoeyToastTimings`   | Animation timing overrides         |
+| `timing`      | `GooeyToastTimings`   | Animation timing overrides         |
 | `spring`      | `boolean`            | Enable spring/bounce animations (default `true`) |
 | `bounce`      | `number`             | Spring intensity from `0.05` (subtle) to `0.8` (dramatic), default `0.4` |
 | `showProgress`| `boolean`            | Show countdown progress bar                      |
@@ -169,7 +169,7 @@ Options passed as the second argument to `goeyToast()` and type-specific methods
 | `onAutoClose` | `(id) => void`       | Called only on timer-based auto-dismiss           |
 | `preset`      | `AnimationPresetName`| Animation preset (`'smooth'`, `'bouncy'`, `'subtle'`, `'snappy'`) |
 
-### `GoeyToastAction`
+### `GooeyToastAction`
 
 | Property       | Type       | Required | Description                                  |
 | -------------- | ---------- | -------- | -------------------------------------------- |
@@ -177,7 +177,7 @@ Options passed as the second argument to `goeyToast()` and type-specific methods
 | `onClick`      | `() => void` | Yes   | Click handler                                |
 | `successLabel` | `string`   | No       | Label shown after click (morphs back to pill)|
 
-### `GoeyToastTimings`
+### `GooeyToastTimings`
 
 Fine-tune animation speeds per toast.
 
@@ -185,7 +185,7 @@ Fine-tune animation speeds per toast.
 | ------------------ | -------- | ------- | ------------------------------------ |
 | `displayDuration`  | `number` | 4000    | Milliseconds toast stays expanded    |
 
-### `GoeyToastClassNames`
+### `GooeyToastClassNames`
 
 Override styles for any part of the toast.
 
@@ -200,9 +200,9 @@ Override styles for any part of the toast.
 | `actionWrapper` | Button container |
 | `actionButton`  | Action button    |
 
-### `GoeyToasterProps`
+### `GooeyToasterProps`
 
-Props for the `<GoeyToaster />` component.
+Props for the `<GooeyToaster />` component.
 
 | Prop         | Type                                  | Default          | Description                                   |
 | ------------ | ------------------------------------- | ---------------- | --------------------------------------------- |
@@ -222,9 +222,9 @@ Props for the `<GoeyToaster />` component.
 | `dir`        | `'ltr' \| 'rtl'`                     | `'ltr'`          | Layout direction                              |
 | `swipeToDismiss` | `boolean`                         | `true`           | Enable swipe-to-dismiss on mobile             |
 
-### `GoeyPromiseData<T>`
+### `GooeyPromiseData<T>`
 
-Configuration for `goeyToast.promise()`.
+Configuration for `gooeyToast.promise()`.
 
 | Property      | Type                                          | Required | Description                                    |
 | ------------- | --------------------------------------------- | -------- | ---------------------------------------------- |
@@ -233,11 +233,11 @@ Configuration for `goeyToast.promise()`.
 | `error`       | `string \| ((error: unknown) => string)`      | Yes      | Title on error (static or derived from error)  |
 | `description` | `object`                                      | No       | Per-phase descriptions (see below)             |
 | `action`      | `object`                                      | No       | Per-phase action buttons (see below)           |
-| `classNames`  | `GoeyToastClassNames`                         | No       | CSS class overrides                            |
+| `classNames`  | `GooeyToastClassNames`                         | No       | CSS class overrides                            |
 | `fillColor`   | `string`                                      | No       | Background color of the blob                   |
 | `borderColor` | `string`                                      | No       | Border color of the blob                       |
 | `borderWidth` | `number`                                      | No       | Border width in px                             |
-| `timing`      | `GoeyToastTimings`                            | No       | Animation timing overrides                     |
+| `timing`      | `GooeyToastTimings`                            | No       | Animation timing overrides                     |
 | `spring`      | `boolean`                                     | No       | Enable spring/bounce animations (default `true`) |
 | `bounce`      | `number`                                      | No       | Spring intensity: `0.05` (subtle) to `0.8` (dramatic), default `0.4` |
 | `onDismiss`   | `(id: string \| number) => void`              | No       | Called when toast is dismissed (any reason)       |
@@ -255,15 +255,15 @@ Configuration for `goeyToast.promise()`.
 
 | Key       | Type              |
 | --------- | ----------------- |
-| `success` | `GoeyToastAction` |
-| `error`   | `GoeyToastAction` |
+| `success` | `GooeyToastAction` |
+| `error`   | `GooeyToastAction` |
 
 ## Usage Examples
 
 ### Description
 
 ```tsx
-goeyToast.error('Payment failed', {
+gooeyToast.error('Payment failed', {
   description: 'Your card was declined. Please try again.',
 })
 ```
@@ -271,7 +271,7 @@ goeyToast.error('Payment failed', {
 ### Custom React Component as Description
 
 ```tsx
-goeyToast.success('Deployment complete', {
+gooeyToast.success('Deployment complete', {
   description: (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div>
@@ -288,7 +288,7 @@ goeyToast.success('Deployment complete', {
 ### Action Button with Success Label
 
 ```tsx
-goeyToast.info('Share link ready', {
+gooeyToast.info('Share link ready', {
   description: 'Your link has been generated.',
   action: {
     label: 'Copy to Clipboard',
@@ -301,7 +301,7 @@ goeyToast.info('Share link ready', {
 ### Promise Toast
 
 ```tsx
-goeyToast.promise(saveData(), {
+gooeyToast.promise(saveData(), {
   loading: 'Saving...',
   success: 'Changes saved',
   error: 'Something went wrong',
@@ -321,7 +321,7 @@ goeyToast.promise(saveData(), {
 ### Custom Styling
 
 ```tsx
-goeyToast.success('Styled!', {
+gooeyToast.success('Styled!', {
   fillColor: '#1a1a2e',
   borderColor: '#333',
   borderWidth: 2,
@@ -337,7 +337,7 @@ goeyToast.success('Styled!', {
 ### Display Duration
 
 ```tsx
-goeyToast.success('Saved', {
+gooeyToast.success('Saved', {
   description: 'Your changes have been synced.',
   timing: { displayDuration: 5000 },
 })
@@ -349,13 +349,13 @@ Disable bounce/spring animations for a cleaner, more subtle look:
 
 ```tsx
 // Per-toast: disable spring for this toast only
-goeyToast.success('Saved', {
+gooeyToast.success('Saved', {
   description: 'Your changes have been synced.',
   spring: false,
 })
 
 // Globally: disable spring for all toasts
-<GoeyToaster spring={false} />
+<GooeyToaster spring={false} />
 ```
 
 When `spring` is `false`, all spring-based animations (landing squish, blob squish, morph transitions, pill resize, header squish) use smooth ease-in-out curves instead. Error shake animations still work regardless of this setting.
@@ -366,16 +366,16 @@ Control how dramatic the spring effect feels with a single `bounce` value:
 
 ```tsx
 // Subtle, barely-there spring
-goeyToast.success('Saved', { bounce: 0.1 })
+gooeyToast.success('Saved', { bounce: 0.1 })
 
 // Default feel
-goeyToast.success('Saved', { bounce: 0.4 })
+gooeyToast.success('Saved', { bounce: 0.4 })
 
 // Jelly mode
-goeyToast.success('Saved', { bounce: 0.8 })
+gooeyToast.success('Saved', { bounce: 0.8 })
 
-// Set globally via GoeyToaster
-<GoeyToaster bounce={0.6} />
+// Set globally via GooeyToaster
+<GooeyToaster bounce={0.6} />
 ```
 
 The `bounce` value (0.05 to 0.8) controls spring stiffness, damping, and squish magnitude together so you get a consistent feel from one number.
@@ -383,13 +383,13 @@ The `bounce` value (0.05 to 0.8) controls spring stiffness, damping, and squish 
 ### Dark Mode
 
 ```tsx
-<GoeyToaster theme="dark" />
+<GooeyToaster theme="dark" />
 ```
 
 ### RTL Support
 
 ```tsx
-<GoeyToaster dir="rtl" />
+<GooeyToaster dir="rtl" />
 ```
 
 ### Animation Presets
@@ -397,10 +397,10 @@ The `bounce` value (0.05 to 0.8) controls spring stiffness, damping, and squish 
 Four built-in presets: `smooth`, `bouncy`, `subtle`, `snappy`. Apply per-toast or globally:
 
 ```tsx
-goeyToast.success('Saved', { preset: 'bouncy' })
+gooeyToast.success('Saved', { preset: 'bouncy' })
 
 // Or globally
-<GoeyToaster preset="smooth" />
+<GooeyToaster preset="smooth" />
 ```
 
 ### Progress Bar
@@ -408,10 +408,10 @@ goeyToast.success('Saved', { preset: 'bouncy' })
 Show a countdown progress bar on toasts:
 
 ```tsx
-goeyToast.success('Saved', { showProgress: true })
+gooeyToast.success('Saved', { showProgress: true })
 
 // Or enable globally
-<GoeyToaster showProgress />
+<GooeyToaster showProgress />
 ```
 
 ### Keyboard Shortcuts
@@ -426,23 +426,23 @@ On mobile, swipe toasts to dismiss them. Enabled by default; disable with `swipe
 
 ```ts
 // Components
-export { GoeyToaster } from 'goey-toast'
+export { GooeyToaster } from 'goey-toast'
 
 // Toast function
-export { goeyToast } from 'goey-toast'
+export { gooeyToast } from 'goey-toast'
 
 // Animation presets
 export { animationPresets } from 'goey-toast'
 
 // Types
 export type {
-  GoeyToastOptions,
-  GoeyPromiseData,
-  GoeyToasterProps,
-  GoeyToastAction,
-  GoeyToastClassNames,
-  GoeyToastTimings,
-  GoeyToastUpdateOptions,
+  GooeyToastOptions,
+  GooeyPromiseData,
+  GooeyToasterProps,
+  GooeyToastAction,
+  GooeyToastClassNames,
+  GooeyToastTimings,
+  GooeyToastUpdateOptions,
   DismissFilter,
   AnimationPreset,
   AnimationPresetName,

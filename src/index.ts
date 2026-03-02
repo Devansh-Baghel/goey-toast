@@ -1,15 +1,15 @@
-import './components/GoeyToast.css'
-export { GoeyToaster } from './components/GoeyToaster'
-export { goeyToast } from './goey-toast'
+import './components/GooeyToast.css'
+export { GooeyToaster } from './components/GooeyToaster'
+export { gooeyToast } from './gooey-toast'
 export { animationPresets } from './presets'
 export type { AnimationPreset, AnimationPresetName } from './presets'
 export type {
-  GoeyToastOptions,
-  GoeyPromiseData,
-  GoeyToasterProps,
-  GoeyToastAction,
-  GoeyToastClassNames,
-  GoeyToastTimings,
-  GoeyToastUpdateOptions,
+  GooeyToastOptions,
+  GooeyPromiseData,
+  GooeyToasterProps,
+  GooeyToastAction,
+  GooeyToastClassNames,
+  GooeyToastTimings,
+  GooeyToastUpdateOptions,
   DismissFilter,
 } from './types'

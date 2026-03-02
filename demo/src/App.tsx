@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { GoeyToaster, goeyToast, animationPresets } from 'goey-toast'
-import type { GoeyToastOptions, GoeyToasterProps, AnimationPresetName } from 'goey-toast'
+import { GooeyToaster, gooeyToast, animationPresets } from 'goey-toast'
+import type { GooeyToastOptions, GooeyToasterProps, AnimationPresetName } from 'goey-toast'
 import { Analytics } from '@vercel/analytics/react'
 import 'goey-toast/styles.css'
 import './App.css'
@@ -93,10 +93,10 @@ const DEMO_DEFAULTS = {
   timing: {
     displayDuration: 5000,
   },
-} satisfies GoeyToastOptions
+} satisfies GooeyToastOptions
 
 const TOAST_TYPES: ToastType[] = ['default', 'success', 'error', 'warning', 'info']
-const POSITIONS: GoeyToasterProps['position'][] = ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right']
+const POSITIONS: GooeyToasterProps['position'][] = ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right']
 const PRESET_NAMES: AnimationPresetName[] = ['smooth', 'bouncy', 'subtle', 'snappy']
 
 function App() {
@@ -131,7 +131,7 @@ function App() {
   }, [heroVisible])
 
   // Builder state
-  const [bPosition, setBPosition] = useState<GoeyToasterProps['position']>('top-left')
+  const [bPosition, setBPosition] = useState<GooeyToasterProps['position']>('top-left')
   const [bType, setBType] = useState<ToastType>('success')
   const [bTitle, setBTitle] = useState('Changes saved')
   const [bHasDesc, setBHasDesc] = useState(true)
@@ -170,7 +170,7 @@ function App() {
 
 
   const fireBuilderToast = () => {
-    const options: GoeyToastOptions = {}
+    const options: GooeyToastOptions = {}
     if (bHasDesc && bDesc) options.description = bDesc
     if (bHasAction && bActionLabel) {
       options.action = { label: bActionLabel, onClick: () => {}, successLabel: 'Done!' }
@@ -191,8 +191,8 @@ function App() {
     }
     if (bShowProgress) options.showProgress = true
 
-    if (bType === 'default') goeyToast(bTitle, options)
-    else goeyToast[bType](bTitle, options)
+    if (bType === 'default') gooeyToast(bTitle, options)
+    else gooeyToast[bType](bTitle, options)
   }
 
   const generatedCode = (() => {
@@ -203,13 +203,13 @@ function App() {
     const hasSpringOff = !hasPreset && !bSpring
     const hasBounce = !hasPreset && bBounce !== 0.4
     const hasOpts = bHasDesc || bHasAction || hasFill || hasBorder || hasPreset || hasSpringOff || hasBounce || bShowProgress
-    const call = bType === 'default' ? 'goeyToast' : `goeyToast.${bType}`
+    const call = bType === 'default' ? 'gooeyToast' : `gooeyToast.${bType}`
 
     const toasterProps = [`position="${bPosition}"`]
     if (bTheme !== 'light') toasterProps.push(`theme="${bTheme}"`)
     if (bShowProgress) toasterProps.push('showProgress')
     if (!bCloseOnEscape) toasterProps.push('closeOnEscape={false}')
-    lines.push(`<GoeyToaster ${toasterProps.join(' ')} />`)
+    lines.push(`<GooeyToaster ${toasterProps.join(' ')} />`)
     lines.push('')
     if (!hasOpts) {
       lines.push(`${call}('${bTitle}')`)
@@ -244,7 +244,7 @@ function App() {
   return (
     <>
       <Analytics />
-      <GoeyToaster
+      <GooeyToaster
         position={bPosition}
         theme={bTheme}
         showProgress={bShowProgress}
@@ -255,7 +255,7 @@ function App() {
       <header className={`site-header${!heroVisible && page === 'home' ? ' header--hero-hidden' : ''}`}>
         <div className="header-inner">
           <button className="header-logo" onClick={() => { setPage('home'); window.scrollTo(0, 0) }}>
-            goey-toast
+            gooey-toast
             <img src="/mascot.png" alt="" className="header-mascot" />
           </button>
 
@@ -311,12 +311,12 @@ function App() {
 
           <div className="changelog-header">
             <h1>Changelog</h1>
-            <p>What's new in goey-toast.</p>
+            <p>What's new in gooey-toast.</p>
           </div>
 
           <div className="changelog-entry">
             <div className="changelog-version">
-              <span className="changelog-tag">v0.2.2</span>
+              <span className="changelog-tag">v0.3.0</span>
               <span className="changelog-date">Feb 26, 2026</span>
             </div>
             <div className="changelog-body">
@@ -328,9 +328,9 @@ function App() {
                 <li>SSR compatibility with isomorphic <code>useLayoutEffect</code></li>
                 <li>Performance: memoized SVG morph paths and debounced height sync</li>
                 <li>Escape key dismiss with <code>closeOnEscape</code> prop (default on)</li>
-                <li>Toast update API: <code>goeyToast.update(id, options)</code> for in-place updates (supports icon override)</li>
+                <li>Toast update API: <code>gooeyToast.update(id, options)</code> for in-place updates (supports icon override)</li>
                 <li>Dark mode theme support via <code>theme</code> prop</li>
-                <li>Dismiss by type: <code>goeyToast.dismiss({'{ type }'})</code> filter</li>
+                <li>Dismiss by type: <code>gooeyToast.dismiss({'{ type }'})</code> filter</li>
                 <li>Progress countdown bar with <code>showProgress</code> prop and hover pause</li>
                 <li>Re-expand on hover after progress bar completes with animation reset</li>
                 <li>Timestamp display on toasts (local time with seconds)</li>
@@ -457,9 +457,9 @@ function App() {
           {/* Hero */}
           <div className="hero">
             <div className="hero-badge">
-              <span /> v0.2.2
+              <span /> v0.3.0
             </div>
-            <h1 ref={heroTitleRef} className={heroLanding ? 'hero-title--landing' : ''}>goey-toast <img src="/mascot.png" alt="mascot" className={`hero-mascot${heroLanding ? ' hero-mascot--landing' : ''}`} /></h1>
+            <h1 ref={heroTitleRef} className={heroLanding ? 'hero-title--landing' : ''}>gooey-toast <img src="/mascot.png" alt="mascot" className={`hero-mascot${heroLanding ? ' hero-mascot--landing' : ''}`} /></h1>
             <p className="hero-description">
               Morphing toast notifications for React. Organic blob animations,
               promise tracking, and full customization out of the box.
@@ -475,6 +475,7 @@ function App() {
                 <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="" width={20} height={28} />
                 <span>Buy me a coffee</span>
               </a>
+              <span className="install-hint">(yes, one "o" — the extra goo is already inside)</span>
             </div>
           </div>
 
@@ -491,21 +492,21 @@ function App() {
             <div className="section">
               <div className="section-label">Toast Types</div>
               <div className="buttons">
-                <button onClick={() => goeyToast('Notification received', DEMO_DEFAULTS)}>Default</button>
-                <button onClick={() => goeyToast.success('Changes Saved', DEMO_DEFAULTS)}>Success</button>
-                <button onClick={() => goeyToast.error('Something went wrong', DEMO_DEFAULTS)}>Error</button>
-                <button onClick={() => goeyToast.warning('Storage is almost full', DEMO_DEFAULTS)}>Warning</button>
-                <button onClick={() => goeyToast.info('New update available', DEMO_DEFAULTS)}>Info</button>
+                <button onClick={() => gooeyToast('Notification received', DEMO_DEFAULTS)}>Default</button>
+                <button onClick={() => gooeyToast.success('Changes Saved', DEMO_DEFAULTS)}>Success</button>
+                <button onClick={() => gooeyToast.error('Something went wrong', DEMO_DEFAULTS)}>Error</button>
+                <button onClick={() => gooeyToast.warning('Storage is almost full', DEMO_DEFAULTS)}>Warning</button>
+                <button onClick={() => gooeyToast.info('New update available', DEMO_DEFAULTS)}>Info</button>
               </div>
             </div>
 
             <div className="section">
               <div className="section-label">With Description</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.warning('Your session is about to expire', { ...DEMO_DEFAULTS, description: "You've been inactive for 25 minutes. Please save your work or your session will end automatically." })}>
+                <button onClick={() => gooeyToast.warning('Your session is about to expire', { ...DEMO_DEFAULTS, description: "You've been inactive for 25 minutes. Please save your work or your session will end automatically." })}>
                   Warning + Description
                 </button>
-                <button onClick={() => goeyToast.error('Connection lost', { ...DEMO_DEFAULTS, description: 'Unable to reach the server. Check your internet connection and try again.' })}>
+                <button onClick={() => gooeyToast.error('Connection lost', { ...DEMO_DEFAULTS, description: 'Unable to reach the server. Check your internet connection and try again.' })}>
                   Error + Description
                 </button>
               </div>
@@ -514,10 +515,10 @@ function App() {
             <div className="section">
               <div className="section-label">With Action Button</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.error('Payment failed', { ...DEMO_DEFAULTS, description: 'Your card ending in 4242 was declined. Please update your payment method to continue.', action: { label: 'Update Payment', onClick: () => goeyToast.success('Redirecting...', DEMO_DEFAULTS) } })}>
+                <button onClick={() => gooeyToast.error('Payment failed', { ...DEMO_DEFAULTS, description: 'Your card ending in 4242 was declined. Please update your payment method to continue.', action: { label: 'Update Payment', onClick: () => gooeyToast.success('Redirecting...', DEMO_DEFAULTS) } })}>
                   Error + Action
                 </button>
-                <button onClick={() => goeyToast.info('Share link ready', { ...DEMO_DEFAULTS, description: 'Your share link has been generated and is ready to copy.', action: { label: 'Copy to Clipboard', onClick: () => navigator.clipboard.writeText('https://example.com/share/abc123'), successLabel: 'Copied!' } })}>
+                <button onClick={() => gooeyToast.info('Share link ready', { ...DEMO_DEFAULTS, description: 'Your share link has been generated and is ready to copy.', action: { label: 'Copy to Clipboard', onClick: () => navigator.clipboard.writeText('https://example.com/share/abc123'), successLabel: 'Copied!' } })}>
                   Action + Success Pill
                 </button>
               </div>
@@ -526,7 +527,7 @@ function App() {
             <div className="section">
               <div className="section-label">Custom Component Body</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.success('Deployment complete', {
+                <button onClick={() => gooeyToast.success('Deployment complete', {
                   ...DEMO_DEFAULTS,
                   description: (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 300 }}>
@@ -555,25 +556,25 @@ function App() {
             <div className="section">
               <div className="section-label">No Spring (Smooth Easing)</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.success('Changes Saved', { ...DEMO_DEFAULTS, spring: false })}>Success (no spring)</button>
-                <button onClick={() => goeyToast.error('Connection lost', { ...DEMO_DEFAULTS, spring: false, description: 'Unable to reach the server. Check your internet connection and try again.' })}>Error + Desc (no spring)</button>
-                <button onClick={() => goeyToast.info('Share link ready', { ...DEMO_DEFAULTS, spring: false, description: 'Your share link has been generated and is ready to copy.', action: { label: 'Copy to Clipboard', onClick: () => navigator.clipboard.writeText('https://example.com/share/abc123'), successLabel: 'Copied!' } })}>Action (no spring)</button>
+                <button onClick={() => gooeyToast.success('Changes Saved', { ...DEMO_DEFAULTS, spring: false })}>Success (no spring)</button>
+                <button onClick={() => gooeyToast.error('Connection lost', { ...DEMO_DEFAULTS, spring: false, description: 'Unable to reach the server. Check your internet connection and try again.' })}>Error + Desc (no spring)</button>
+                <button onClick={() => gooeyToast.info('Share link ready', { ...DEMO_DEFAULTS, spring: false, description: 'Your share link has been generated and is ready to copy.', action: { label: 'Copy to Clipboard', onClick: () => navigator.clipboard.writeText('https://example.com/share/abc123'), successLabel: 'Copied!' } })}>Action (no spring)</button>
               </div>
             </div>
 
             <div className="section">
               <div className="section-label">Promise (Morph Animation)</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>
+                <button onClick={() => gooeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>
                   Promise + Success (pill)
                 </button>
-                <button onClick={() => goeyToast.promise(failAfter(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>
+                <button onClick={() => gooeyToast.promise(failAfter(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>
                   Promise + Error (pill)
                 </button>
-                <button onClick={() => goeyToast.promise(failAfter(2000), { ...DEMO_DEFAULTS, loading: 'Uploading file...', success: 'Upload complete', error: 'Upload failed', description: { error: "You've used 95% of your available storage. Please upgrade and plan to continue." }, action: { error: { label: 'Action Button', onClick: () => goeyToast.info('Retrying...', DEMO_DEFAULTS) } } })}>
+                <button onClick={() => gooeyToast.promise(failAfter(2000), { ...DEMO_DEFAULTS, loading: 'Uploading file...', success: 'Upload complete', error: 'Upload failed', description: { error: "You've used 95% of your available storage. Please upgrade and plan to continue." }, action: { error: { label: 'Action Button', onClick: () => gooeyToast.info('Retrying...', DEMO_DEFAULTS) } } })}>
                   Promise + Error (expanded)
                 </button>
-                <button onClick={() => goeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Processing...', success: 'All done!', error: 'Failed', description: { success: 'Your data has been processed and saved successfully.' } })}>
+                <button onClick={() => gooeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Processing...', success: 'All done!', error: 'Failed', description: { success: 'Your data has been processed and saved successfully.' } })}>
                   Promise + Success (expanded)
                 </button>
               </div>
@@ -583,10 +584,10 @@ function App() {
               <div className="section-label">Update Toast</div>
               <div className="buttons">
                 <button onClick={() => {
-                  const spinIcon = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'goey-spin 1s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.22-8.56" /></svg>
-                  const id = goeyToast('Uploading...', { ...DEMO_DEFAULTS, icon: spinIcon })
+                  const spinIcon = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'gooey-spin 1s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.22-8.56" /></svg>
+                  const id = gooeyToast('Uploading...', { ...DEMO_DEFAULTS, icon: spinIcon })
                   setTimeout(() => {
-                    goeyToast.update(id, { title: 'Upload complete!', type: 'success', icon: null, description: 'Your file has been uploaded and processed.' })
+                    gooeyToast.update(id, { title: 'Upload complete!', type: 'success', icon: null, description: 'Your file has been uploaded and processed.' })
                   }, 2000)
                 }}>
                   Update Toast
@@ -598,7 +599,7 @@ function App() {
             <div className="section">
               <div className="section-label">Progress Bar</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.info('Downloading update...', { ...DEMO_DEFAULTS, description: 'This may take a moment.', showProgress: true })}>
+                <button onClick={() => gooeyToast.info('Downloading update...', { ...DEMO_DEFAULTS, description: 'This may take a moment.', showProgress: true })}>
                   Progress Bar
                 </button>
               </div>
@@ -607,10 +608,10 @@ function App() {
             <div className="section">
               <div className="section-label">Callbacks</div>
               <div className="buttons">
-                <button onClick={() => goeyToast.info('Watch me disappear', {
+                <button onClick={() => gooeyToast.info('Watch me disappear', {
                   ...DEMO_DEFAULTS,
                   onDismiss: () => {
-                    goeyToast.success('Previous toast dismissed!', DEMO_DEFAULTS)
+                    gooeyToast.success('Previous toast dismissed!', DEMO_DEFAULTS)
                   },
                 })}>
                   With Callback
@@ -902,16 +903,16 @@ function App() {
               </div>
               <div className="doc-section-content">
                 <p>
-                  Add the <span className="inline-code">GoeyToaster</span> provider and call{' '}
-                  <span className="inline-code">goeyToast</span> from anywhere.
+                  Add the <span className="inline-code">GooeyToaster</span> provider and call{' '}
+                  <span className="inline-code">gooeyToast</span> from anywhere.
                 </p>
-                <pre><code>{`import { GoeyToaster, goeyToast } from 'goey-toast'
+                <pre><code>{`import { GooeyToaster, gooeyToast } from 'goey-toast'
 
 function App() {
   return (
     <>
-      <GoeyToaster position="bottom-right" />
-      <button onClick={() => goeyToast.success('Saved!')}>
+      <GooeyToaster position="bottom-right" />
+      <button onClick={() => gooeyToast.success('Saved!')}>
         Save
       </button>
     </>
@@ -938,22 +939,22 @@ function App() {
                 </p>
                 <pre><code>{`npx shadcn@latest add https://goey-toast.vercel.app/r/goey-toaster.json`}</code></pre>
                 <p>Then use it in your layout:</p>
-                <pre><code>{`import { GoeyToaster } from "@/components/ui/goey-toaster"
-import { goeyToast } from "@/components/ui/goey-toaster"
+                <pre><code>{`import { GooeyToaster } from "@/components/ui/goey-toaster"
+import { gooeyToast } from "@/components/ui/goey-toaster"
 
 export default function RootLayout({ children }) {
   return (
     <html>
       <body>
         {children}
-        <GoeyToaster />
+        <GooeyToaster />
       </body>
     </html>
   )
 }
 
 // Trigger from anywhere
-goeyToast.success("Saved!")`}</code></pre>
+gooeyToast.success("Saved!")`}</code></pre>
               </div>
             </div>
 
@@ -963,17 +964,17 @@ goeyToast.success("Saved!")`}</code></pre>
                 <h3>Toast Types</h3>
               </div>
               <div className="doc-section-content">
-                <pre><code>{`goeyToast('Hello')                    // default (neutral)
-goeyToast.success('Saved!')           // green
-goeyToast.error('Failed')             // red
-goeyToast.warning('Careful')          // yellow
-goeyToast.info('FYI')                 // blue`}</code></pre>
+                <pre><code>{`gooeyToast('Hello')                    // default (neutral)
+gooeyToast.success('Saved!')           // green
+gooeyToast.error('Failed')             // red
+gooeyToast.warning('Careful')          // yellow
+gooeyToast.info('FYI')                 // blue`}</code></pre>
                 <div className="doc-try-buttons">
-                  <button onClick={() => goeyToast('Notification received', DEMO_DEFAULTS)}>Default</button>
-                  <button onClick={() => goeyToast.success('Changes Saved', DEMO_DEFAULTS)}>Success</button>
-                  <button onClick={() => goeyToast.error('Something went wrong', DEMO_DEFAULTS)}>Error</button>
-                  <button onClick={() => goeyToast.warning('Storage is almost full', DEMO_DEFAULTS)}>Warning</button>
-                  <button onClick={() => goeyToast.info('New update available', DEMO_DEFAULTS)}>Info</button>
+                  <button onClick={() => gooeyToast('Notification received', DEMO_DEFAULTS)}>Default</button>
+                  <button onClick={() => gooeyToast.success('Changes Saved', DEMO_DEFAULTS)}>Success</button>
+                  <button onClick={() => gooeyToast.error('Something went wrong', DEMO_DEFAULTS)}>Error</button>
+                  <button onClick={() => gooeyToast.warning('Storage is almost full', DEMO_DEFAULTS)}>Warning</button>
+                  <button onClick={() => gooeyToast.info('New update available', DEMO_DEFAULTS)}>Info</button>
                 </div>
               </div>
             </div>
@@ -988,12 +989,12 @@ goeyToast.info('FYI')                 // blue`}</code></pre>
                   Pass a string or any <span className="inline-code">ReactNode</span> as the
                   description to expand the toast into a blob.
                 </p>
-                <pre><code>{`goeyToast.error('Payment failed', {
+                <pre><code>{`gooeyToast.error('Payment failed', {
   description: 'Your card was declined.',
 })
 
 // Custom component as body
-goeyToast.success('Deployed', {
+gooeyToast.success('Deployed', {
   description: (
     <div>
       <strong>Production</strong>
@@ -1002,8 +1003,8 @@ goeyToast.success('Deployed', {
   ),
 })`}</code></pre>
                 <div className="doc-try-buttons">
-                  <button onClick={() => goeyToast.warning('Your session is about to expire', { ...DEMO_DEFAULTS, description: "You've been inactive for 25 minutes. Please save your work or your session will end automatically." })}>Warning + Description</button>
-                  <button onClick={() => goeyToast.error('Connection lost', { ...DEMO_DEFAULTS, description: 'Unable to reach the server. Check your internet connection and try again.' })}>Error + Description</button>
+                  <button onClick={() => gooeyToast.warning('Your session is about to expire', { ...DEMO_DEFAULTS, description: "You've been inactive for 25 minutes. Please save your work or your session will end automatically." })}>Warning + Description</button>
+                  <button onClick={() => gooeyToast.error('Connection lost', { ...DEMO_DEFAULTS, description: 'Unable to reach the server. Check your internet connection and try again.' })}>Error + Description</button>
                 </div>
               </div>
             </div>
@@ -1018,7 +1019,7 @@ goeyToast.success('Deployed', {
                   Add <span className="inline-code">successLabel</span> for a pill morph-back
                   animation on click.
                 </p>
-                <pre><code>{`goeyToast.info('Share link ready', {
+                <pre><code>{`gooeyToast.info('Share link ready', {
   description: 'Your link has been generated.',
   action: {
     label: 'Copy to Clipboard',
@@ -1027,8 +1028,8 @@ goeyToast.success('Deployed', {
   },
 })`}</code></pre>
                 <div className="doc-try-buttons">
-                  <button onClick={() => goeyToast.error('Payment failed', { ...DEMO_DEFAULTS, description: 'Your card ending in 4242 was declined. Please update your payment method to continue.', action: { label: 'Update Payment', onClick: () => goeyToast.success('Redirecting...', DEMO_DEFAULTS) } })}>Error + Action</button>
-                  <button onClick={() => goeyToast.info('Share link ready', { ...DEMO_DEFAULTS, description: 'Your share link has been generated and is ready to copy.', action: { label: 'Copy to Clipboard', onClick: () => navigator.clipboard.writeText('https://example.com/share/abc123'), successLabel: 'Copied!' } })}>Action + Success Pill</button>
+                  <button onClick={() => gooeyToast.error('Payment failed', { ...DEMO_DEFAULTS, description: 'Your card ending in 4242 was declined. Please update your payment method to continue.', action: { label: 'Update Payment', onClick: () => gooeyToast.success('Redirecting...', DEMO_DEFAULTS) } })}>Error + Action</button>
+                  <button onClick={() => gooeyToast.info('Share link ready', { ...DEMO_DEFAULTS, description: 'Your share link has been generated and is ready to copy.', action: { label: 'Copy to Clipboard', onClick: () => navigator.clipboard.writeText('https://example.com/share/abc123'), successLabel: 'Copied!' } })}>Action + Success Pill</button>
                 </div>
               </div>
             </div>
@@ -1042,7 +1043,7 @@ goeyToast.success('Deployed', {
                 <p>
                   Automatically transitions from loading to success/error when the promise resolves.
                 </p>
-                <pre><code>{`goeyToast.promise(saveData(), {
+                <pre><code>{`gooeyToast.promise(saveData(), {
   loading: 'Saving...',
   success: 'Changes saved',
   error: 'Something went wrong',
@@ -1058,9 +1059,9 @@ goeyToast.success('Deployed', {
   },
 })`}</code></pre>
                 <div className="doc-try-buttons">
-                  <button onClick={() => goeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>Promise + Success (pill)</button>
-                  <button onClick={() => goeyToast.promise(failAfter(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>Promise + Error (pill)</button>
-                  <button onClick={() => goeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Processing...', success: 'All done!', error: 'Failed', description: { success: 'Your data has been processed and saved successfully.' } })}>Promise + Success (expanded)</button>
+                  <button onClick={() => gooeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>Promise + Success (pill)</button>
+                  <button onClick={() => gooeyToast.promise(failAfter(2000), { ...DEMO_DEFAULTS, loading: 'Saving...', success: 'Changes Saved', error: 'Something went wrong' })}>Promise + Error (pill)</button>
+                  <button onClick={() => gooeyToast.promise(sleep(2000), { ...DEMO_DEFAULTS, loading: 'Processing...', success: 'All done!', error: 'Failed', description: { success: 'Your data has been processed and saved successfully.' } })}>Promise + Success (expanded)</button>
                 </div>
               </div>
             </div>
@@ -1098,7 +1099,7 @@ goeyToast.success('Deployed', {
                   6 positions supported. Right-side positions auto-mirror the blob horizontally.
                   Center positions use a symmetric morph where the body grows outward from the pill.
                 </p>
-                <pre><code>{`<GoeyToaster position="top-center" />`}</code></pre>
+                <pre><code>{`<GooeyToaster position="top-center" />`}</code></pre>
                 <div className="table-scroll">
                 <table className="prop-table">
                   <thead>
@@ -1137,15 +1138,15 @@ goeyToast.success('Deployed', {
                   </thead>
                   <tbody>
                     <tr><td>description</td><td>ReactNode</td><td>Body content (string or component)</td></tr>
-                    <tr><td>action</td><td>GoeyToastAction</td><td>Action button config</td></tr>
+                    <tr><td>action</td><td>GooeyToastAction</td><td>Action button config</td></tr>
                     <tr><td>icon</td><td>ReactNode</td><td>Custom icon override</td></tr>
                     <tr><td>duration</td><td>number</td><td>Display duration in ms</td></tr>
                     <tr><td>id</td><td>string | number</td><td>Unique toast identifier</td></tr>
-                    <tr><td>classNames</td><td>GoeyToastClassNames</td><td>CSS class overrides</td></tr>
+                    <tr><td>classNames</td><td>GooeyToastClassNames</td><td>CSS class overrides</td></tr>
                     <tr><td>fillColor</td><td>string</td><td>Background color of the blob</td></tr>
                     <tr><td>borderColor</td><td>string</td><td>Border color of the blob</td></tr>
                     <tr><td>borderWidth</td><td>number</td><td>Border width in px (default 1.5)</td></tr>
-                    <tr><td>timing</td><td>GoeyToastTimings</td><td>Animation timing overrides</td></tr>
+                    <tr><td>timing</td><td>GooeyToastTimings</td><td>Animation timing overrides</td></tr>
                     <tr><td>spring</td><td>boolean</td><td>Enable spring/bounce animations (default true)</td></tr>
                     <tr><td>bounce</td><td>number</td><td>Spring intensity: 0.05 (subtle) to 0.8 (dramatic), default 0.4</td></tr>
                     <tr><td>showProgress</td><td>boolean</td><td>Show countdown progress bar on this toast</td></tr>
@@ -1165,7 +1166,7 @@ goeyToast.success('Deployed', {
               </div>
               <div className="doc-section-content">
                 <p>
-                  Beyond the basic <span className="inline-code">goeyToast()</span> and type methods,
+                  Beyond the basic <span className="inline-code">gooeyToast()</span> and type methods,
                   the following methods are available for managing toasts programmatically.
                 </p>
                 <div className="table-scroll">
@@ -1174,33 +1175,33 @@ goeyToast.success('Deployed', {
                     <tr><th>Method</th><th>Signature</th><th>Description</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>goeyToast.dismiss</td><td>(id?: string | number) =&gt; void</td><td>Dismiss a specific toast by ID, or all toasts if no ID</td></tr>
-                    <tr><td>goeyToast.dismiss</td><td>(filter: DismissFilter) =&gt; void</td><td>Dismiss all toasts matching a type filter</td></tr>
-                    <tr><td>goeyToast.update</td><td>(id, options: GoeyToastUpdateOptions) =&gt; void</td><td>Update an active toast's title, description, type, or action in place</td></tr>
+                    <tr><td>gooeyToast.dismiss</td><td>(id?: string | number) =&gt; void</td><td>Dismiss a specific toast by ID, or all toasts if no ID</td></tr>
+                    <tr><td>gooeyToast.dismiss</td><td>(filter: DismissFilter) =&gt; void</td><td>Dismiss all toasts matching a type filter</td></tr>
+                    <tr><td>gooeyToast.update</td><td>(id, options: GooeyToastUpdateOptions) =&gt; void</td><td>Update an active toast's title, description, type, or action in place</td></tr>
                   </tbody>
                 </table>
                 </div>
                 <h4 style={{ marginTop: 20, fontSize: 13 }}>DismissFilter</h4>
                 <pre><code>{`interface DismissFilter {
-  type: GoeyToastType | GoeyToastType[]
+  type: GooeyToastType | GooeyToastType[]
 }
 
 // Dismiss all error toasts
-goeyToast.dismiss({ type: 'error' })
+gooeyToast.dismiss({ type: 'error' })
 
 // Dismiss all error and warning toasts
-goeyToast.dismiss({ type: ['error', 'warning'] })`}</code></pre>
-                <h4 style={{ marginTop: 20, fontSize: 13 }}>GoeyToastUpdateOptions</h4>
-                <pre><code>{`interface GoeyToastUpdateOptions {
+gooeyToast.dismiss({ type: ['error', 'warning'] })`}</code></pre>
+                <h4 style={{ marginTop: 20, fontSize: 13 }}>GooeyToastUpdateOptions</h4>
+                <pre><code>{`interface GooeyToastUpdateOptions {
   title?: string
   description?: ReactNode
-  type?: GoeyToastType
-  action?: GoeyToastAction
+  type?: GooeyToastType
+  action?: GooeyToastAction
 }
 
 // Update a toast in place
-const id = goeyToast.success('Uploading...')
-goeyToast.update(id, {
+const id = gooeyToast.success('Uploading...')
+gooeyToast.update(id, {
   title: 'Upload complete!',
   type: 'success',
   description: 'File has been processed.',
@@ -1218,7 +1219,7 @@ goeyToast.update(id, {
                   Override styles for any part of the toast with{' '}
                   <span className="inline-code">classNames</span>.
                 </p>
-                <pre><code>{`goeyToast.success('Styled!', {
+                <pre><code>{`gooeyToast.success('Styled!', {
   fillColor: '#1a1a2e',
   borderColor: '#333',
   borderWidth: 2,
@@ -1230,7 +1231,7 @@ goeyToast.update(id, {
   },
 })`}</code></pre>
                 <div className="doc-try-buttons">
-                  <button onClick={() => goeyToast.success('Styled!', { ...DEMO_DEFAULTS, fillColor: '#1a1a2e', borderColor: '#333', borderWidth: 2, description: 'Custom fill and border styling.' })}>Try Custom Style</button>
+                  <button onClick={() => gooeyToast.success('Styled!', { ...DEMO_DEFAULTS, fillColor: '#1a1a2e', borderColor: '#333', borderWidth: 2, description: 'Custom fill and border styling.' })}>Try Custom Style</button>
                 </div>
                 <div className="table-scroll">
                 <table className="prop-table">
@@ -1262,13 +1263,13 @@ goeyToast.update(id, {
                   Set per-toast or globally on the Toaster.
                 </p>
                 <pre><code>{`// Per-toast
-goeyToast.success('Saved', {
+gooeyToast.success('Saved', {
   description: 'Your changes have been synced.',
   spring: false,
 })
 
 // Global default
-<GoeyToaster spring={false} />`}</code></pre>
+<GooeyToaster spring={false} />`}</code></pre>
                 <p>
                   When <span className="inline-code">spring</span> is{' '}
                   <span className="inline-code">false</span>, all spring-based animations
@@ -1277,9 +1278,9 @@ goeyToast.success('Saved', {
                   Per-toast values override the global setting.
                 </p>
                 <div className="doc-try-buttons">
-                  <button onClick={() => goeyToast.success('Smooth save', DEMO_DEFAULTS)}>No Spring (pill)</button>
-                  <button onClick={() => goeyToast.warning('Storage warning', { ...DEMO_DEFAULTS, description: 'You are using 95% of your available storage.' })}>No Spring (expanded)</button>
-                  <button onClick={() => goeyToast.success('Bouncy save', { ...DEMO_DEFAULTS, spring: true })}>With Spring (compare)</button>
+                  <button onClick={() => gooeyToast.success('Smooth save', DEMO_DEFAULTS)}>No Spring (pill)</button>
+                  <button onClick={() => gooeyToast.warning('Storage warning', { ...DEMO_DEFAULTS, description: 'You are using 95% of your available storage.' })}>No Spring (expanded)</button>
+                  <button onClick={() => gooeyToast.success('Bouncy save', { ...DEMO_DEFAULTS, spring: true })}>With Spring (compare)</button>
                 </div>
               </div>
             </div>

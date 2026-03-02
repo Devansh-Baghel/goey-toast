@@ -1,24 +1,24 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { toast } from 'sonner'
-import { GoeyToast } from './components/GoeyToast'
+import { GooeyToast } from './components/GooeyToast'
 import { ToastErrorBoundary } from './components/ToastErrorBoundary'
-import { getGoeyVisibleToasts, getGoeyMaxQueue, getGoeyQueueOverflow, announce, type AriaLivePoliteness } from './context'
+import { getGooeyVisibleToasts, getGooeyMaxQueue, getGooeyQueueOverflow, announce, type AriaLivePoliteness } from './context'
 import type {
-  GoeyToastOptions,
-  GoeyPromiseData,
-  GoeyToastPhase,
-  GoeyToastType,
-  GoeyToastAction,
-  GoeyToastClassNames,
-  GoeyToastTimings,
-  GoeyToastUpdateOptions,
+  GooeyToastOptions,
+  GooeyPromiseData,
+  GooeyToastPhase,
+  GooeyToastType,
+  GooeyToastAction,
+  GooeyToastClassNames,
+  GooeyToastTimings,
+  GooeyToastUpdateOptions,
   DismissFilter,
 } from './types'
 import type { AnimationPresetName } from './presets'
 
 const DEFAULT_EXPANDED_DURATION = 4000
 
-function getAnnouncePoliteness(type: GoeyToastType): AriaLivePoliteness {
+function getAnnouncePoliteness(type: GooeyToastType): AriaLivePoliteness {
   return type === 'error' || type === 'warning' ? 'assertive' : 'polite'
 }
 
@@ -31,8 +31,8 @@ function buildAnnouncementMessage(title: string, description?: ReactNode): strin
 // Toast queue — limits concurrent toasts to `visibleToasts` (default 3).
 // Excess toasts wait in a FIFO queue and fire when a slot opens.
 // ---------------------------------------------------------------------------
-const _activeIds = new Map<string | number, GoeyToastType>()
-const _queue: Array<{ id: string | number; type: GoeyToastType; create: () => void }> = []
+const _activeIds = new Map<string | number, GooeyToastType>()
+const _queue: Array<{ id: string | number; type: GooeyToastType; create: () => void }> = []
 
 // ---------------------------------------------------------------------------
 // Callback registry — stores onDismiss/onAutoClose per toast ID so they can
@@ -69,7 +69,7 @@ export function _getMostRecentActiveId(): string | number | undefined {
 }
 
 function _processQueue() {
-  const max = getGoeyVisibleToasts()
+  const max = getGooeyVisibleToasts()
   while (_queue.length > 0 && _activeIds.size < max) {
     const next = _queue.shift()!
     _activeIds.set(next.id, next.type)
@@ -77,9 +77,9 @@ function _processQueue() {
   }
 }
 
-function _enqueue(entry: { id: string | number; type: GoeyToastType; create: () => void }): boolean {
-  const maxQueue = getGoeyMaxQueue()
-  const overflow = getGoeyQueueOverflow()
+function _enqueue(entry: { id: string | number; type: GooeyToastType; create: () => void }): boolean {
+  const maxQueue = getGooeyMaxQueue()
+  const overflow = getGooeyQueueOverflow()
   if (_queue.length >= maxQueue) {
     if (overflow === 'drop-newest') return false
     // drop-oldest: remove the oldest queued item
@@ -116,9 +116,9 @@ function _onToastDismissed(id: string | number) {
 // Each toast wrapper subscribes to its own ID; calling update() stores
 // partial new props and notifies the listener to re-render.
 // ---------------------------------------------------------------------------
-const _toastUpdateListeners = new Map<string | number, (opts: GoeyToastUpdateOptions) => void>()
+const _toastUpdateListeners = new Map<string | number, (opts: GooeyToastUpdateOptions) => void>()
 
-function updateGoeyToast(id: string | number, options: GoeyToastUpdateOptions) {
+function updateGooeyToast(id: string | number, options: GooeyToastUpdateOptions) {
   const listener = _toastUpdateListeners.get(id)
   if (listener) {
     listener(options)
@@ -136,7 +136,7 @@ function updateGoeyToast(id: string | number, options: GoeyToastUpdateOptions) {
   }
 }
 
-function GoeyToastWrapper({
+function GooeyToastWrapper({
   initialPhase,
   title: initialTitle,
   type: initialType,
@@ -157,17 +157,17 @@ function GoeyToastWrapper({
   onDismiss,
   onAutoClose,
 }: {
-  initialPhase: GoeyToastPhase
+  initialPhase: GooeyToastPhase
   title: string
-  type: GoeyToastType
+  type: GooeyToastType
   description?: ReactNode
-  action?: GoeyToastAction
+  action?: GooeyToastAction
   icon?: ReactNode
-  classNames?: GoeyToastClassNames
+  classNames?: GooeyToastClassNames
   fillColor?: string
   borderColor?: string
   borderWidth?: number
-  timing?: GoeyToastTimings
+  timing?: GooeyToastTimings
   preset?: AnimationPresetName
   spring?: boolean
   bounce?: number
@@ -186,14 +186,14 @@ function GoeyToastWrapper({
 
   const [title, setTitle] = useState(initialTitle)
   const [type, setType] = useState(initialType)
-  const [phase, setPhase] = useState<GoeyToastPhase>(initialPhase)
+  const [phase, setPhase] = useState<GooeyToastPhase>(initialPhase)
   const [description, setDescription] = useState(initialDescription)
   const [action, setAction] = useState(initialAction)
   const [currentIcon, setCurrentIcon] = useState<ReactNode | undefined>(icon)
 
   // Subscribe to in-place updates for this toast's ID.
   useEffect(() => {
-    const handleUpdate = (opts: GoeyToastUpdateOptions) => {
+    const handleUpdate = (opts: GooeyToastUpdateOptions) => {
       if (opts.title !== undefined) setTitle(opts.title)
       if (opts.description !== undefined) setDescription(opts.description)
       if (opts.type !== undefined) {
@@ -225,7 +225,7 @@ function GoeyToastWrapper({
 
   return (
     <ToastErrorBoundary>
-      <GoeyToast
+      <GooeyToast
         title={title}
         description={description}
         type={type}
@@ -253,13 +253,13 @@ function PromiseToastWrapper<T>({
   toastId,
 }: {
   promise: Promise<T>
-  data: GoeyPromiseData<T>
+  data: GooeyPromiseData<T>
   toastId: string | number
 }) {
-  const [phase, setPhase] = useState<GoeyToastPhase>('loading')
+  const [phase, setPhase] = useState<GooeyToastPhase>('loading')
   const [title, setTitle] = useState(data.loading)
   const [description, setDescription] = useState<ReactNode | undefined>(data.description?.loading)
-  const [action, setAction] = useState<GoeyToastAction | undefined>(undefined)
+  const [action, setAction] = useState<GooeyToastAction | undefined>(undefined)
 
   // Register callbacks so _onToastDismissed can invoke them on unmount
   useEffect(() => {
@@ -323,10 +323,10 @@ function PromiseToastWrapper<T>({
 
   return (
     <ToastErrorBoundary>
-      <GoeyToast
+      <GooeyToast
         title={title}
         description={description}
-        type={phase === 'loading' ? 'info' : (phase as GoeyToastType)}
+        type={phase === 'loading' ? 'info' : (phase as GooeyToastType)}
         action={action}
         phase={phase}
         classNames={data.classNames}
@@ -342,10 +342,10 @@ function PromiseToastWrapper<T>({
   )
 }
 
-function createGoeyToast(
+function createGooeyToast(
   title: string,
-  type: GoeyToastType,
-  options?: GoeyToastOptions
+  type: GooeyToastType,
+  options?: GooeyToastOptions
 ) {
   const hasExpandedContent = Boolean(options?.description || options?.action)
   const baseDuration = options?.timing?.displayDuration ?? options?.duration ?? (options?.description ? DEFAULT_EXPANDED_DURATION : undefined)
@@ -358,7 +358,7 @@ function createGoeyToast(
   const create = () => {
     toast.custom(
       () => (
-        <GoeyToastWrapper
+        <GooeyToastWrapper
           initialPhase={type}
           title={title}
           type={type}
@@ -398,7 +398,7 @@ function createGoeyToast(
     getAnnouncePoliteness(type),
   )
 
-  if (_activeIds.size < getGoeyVisibleToasts()) {
+  if (_activeIds.size < getGooeyVisibleToasts()) {
     _activeIds.set(toastId, type)
     create()
   } else {
@@ -408,11 +408,11 @@ function createGoeyToast(
   return toastId
 }
 
-function dismissGoeyToast(idOrFilter?: string | number | DismissFilter) {
+function dismissGooeyToast(idOrFilter?: string | number | DismissFilter) {
   if (idOrFilter != null && typeof idOrFilter === 'object') {
     // Dismiss by type filter
     const filterTypes = Array.isArray(idOrFilter.type) ? idOrFilter.type : [idOrFilter.type]
-    const typesSet = new Set<GoeyToastType>(filterTypes)
+    const typesSet = new Set<GooeyToastType>(filterTypes)
 
     // Remove matching toasts from the queue
     for (let i = _queue.length - 1; i >= 0; i--) {
@@ -437,7 +437,7 @@ function dismissGoeyToast(idOrFilter?: string | number | DismissFilter) {
     }
     // Mark as manual dismiss so onAutoClose is NOT called
     _manualDismissFlags.add(idOrFilter)
-    // Dismiss from Sonner — unmount cleanup in GoeyToastWrapper handles activeIds + queue
+    // Dismiss from Sonner — unmount cleanup in GooeyToastWrapper handles activeIds + queue
     toast.dismiss(idOrFilter)
   } else {
     // Dismiss all: mark all active as manual dismiss, clear queue and dismiss
@@ -450,19 +450,19 @@ function dismissGoeyToast(idOrFilter?: string | number | DismissFilter) {
   }
 }
 
-export const goeyToast = Object.assign(
-  (title: string, options?: GoeyToastOptions) =>
-    createGoeyToast(title, 'default', options),
+export const gooeyToast = Object.assign(
+  (title: string, options?: GooeyToastOptions) =>
+    createGooeyToast(title, 'default', options),
   {
-    success: (title: string, options?: GoeyToastOptions) =>
-      createGoeyToast(title, 'success', options),
-    error: (title: string, options?: GoeyToastOptions) =>
-      createGoeyToast(title, 'error', options),
-    warning: (title: string, options?: GoeyToastOptions) =>
-      createGoeyToast(title, 'warning', options),
-    info: (title: string, options?: GoeyToastOptions) =>
-      createGoeyToast(title, 'info', options),
-    promise: <T,>(promise: Promise<T>, data: GoeyPromiseData<T>) => {
+    success: (title: string, options?: GooeyToastOptions) =>
+      createGooeyToast(title, 'success', options),
+    error: (title: string, options?: GooeyToastOptions) =>
+      createGooeyToast(title, 'error', options),
+    warning: (title: string, options?: GooeyToastOptions) =>
+      createGooeyToast(title, 'warning', options),
+    info: (title: string, options?: GooeyToastOptions) =>
+      createGooeyToast(title, 'info', options),
+    promise: <T,>(promise: Promise<T>, data: GooeyPromiseData<T>) => {
       const id = Math.random().toString(36).slice(2)
 
       // Announce loading state to screen readers
@@ -482,7 +482,7 @@ export const goeyToast = Object.assign(
         })
       }
 
-      if (_activeIds.size < getGoeyVisibleToasts()) {
+      if (_activeIds.size < getGooeyVisibleToasts()) {
         _activeIds.set(id, 'info')
         create()
       } else {
@@ -491,7 +491,7 @@ export const goeyToast = Object.assign(
 
       return id
     },
-    dismiss: dismissGoeyToast,
-    update: updateGoeyToast,
+    dismiss: dismissGooeyToast,
+    update: updateGooeyToast,
   }
 )

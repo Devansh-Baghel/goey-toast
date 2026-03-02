@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, fireEvent, cleanup } from '@testing-library/react'
-import { GoeyToaster } from '../components/GoeyToaster'
-import { _resetQueue, _getMostRecentActiveId } from '../goey-toast'
+import { GooeyToaster } from '../components/GooeyToaster'
+import { _resetQueue, _getMostRecentActiveId } from '../gooey-toast'
 
 vi.mock('sonner', () => ({
   toast: {
@@ -26,22 +26,22 @@ vi.mock('framer-motion', () => ({
 }))
 
 import { toast } from 'sonner'
-import { goeyToast } from '../goey-toast'
+import { gooeyToast } from '../gooey-toast'
 
-describe('GoeyToaster', () => {
+describe('GooeyToaster', () => {
   it('renders without crashing', () => {
-    const { container } = render(<GoeyToaster />)
+    const { container } = render(<GooeyToaster />)
     expect(container).toBeDefined()
   })
 
   it('renders with custom position', () => {
-    const { container } = render(<GoeyToaster position="top-center" />)
+    const { container } = render(<GooeyToaster position="top-center" />)
     expect(container).toBeDefined()
   })
 
   it('renders with all props', () => {
     const { container } = render(
-      <GoeyToaster
+      <GooeyToaster
         position="top-right"
         duration={5000}
         gap={20}
@@ -53,7 +53,7 @@ describe('GoeyToaster', () => {
   })
 })
 
-describe('GoeyToaster closeOnEscape', () => {
+describe('GooeyToaster closeOnEscape', () => {
   const mockDismiss = toast.dismiss as ReturnType<typeof vi.fn>
   const mockCustom = toast.custom as ReturnType<typeof vi.fn>
 
@@ -68,10 +68,10 @@ describe('GoeyToaster closeOnEscape', () => {
   })
 
   it('dismisses the most recent toast when Escape is pressed', () => {
-    render(<GoeyToaster />)
+    render(<GooeyToaster />)
 
     // Create a toast so there is an active ID
-    goeyToast('Hello')
+    gooeyToast('Hello')
     const toastId = _getMostRecentActiveId()
     expect(toastId).toBeDefined()
 
@@ -82,9 +82,9 @@ describe('GoeyToaster closeOnEscape', () => {
   })
 
   it('does not dismiss when closeOnEscape is false', () => {
-    render(<GoeyToaster closeOnEscape={false} />)
+    render(<GooeyToaster closeOnEscape={false} />)
 
-    goeyToast('Hello')
+    gooeyToast('Hello')
 
     mockDismiss.mockClear()
     fireEvent.keyDown(document, { key: 'Escape' })
@@ -93,7 +93,7 @@ describe('GoeyToaster closeOnEscape', () => {
   })
 
   it('does nothing when Escape is pressed with no active toasts', () => {
-    render(<GoeyToaster />)
+    render(<GooeyToaster />)
 
     fireEvent.keyDown(document, { key: 'Escape' })
 
@@ -101,9 +101,9 @@ describe('GoeyToaster closeOnEscape', () => {
   })
 
   it('does not dismiss on non-Escape keys', () => {
-    render(<GoeyToaster />)
+    render(<GooeyToaster />)
 
-    goeyToast('Hello')
+    gooeyToast('Hello')
 
     mockDismiss.mockClear()
     fireEvent.keyDown(document, { key: 'Enter' })

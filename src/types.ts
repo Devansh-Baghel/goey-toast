@@ -2,13 +2,13 @@ import type { ReactNode } from 'react'
 import type { ExternalToast, ToasterProps } from 'sonner'
 import type { AnimationPresetName } from './presets'
 
-export type GoeyToastType = 'default' | 'success' | 'error' | 'warning' | 'info'
+export type GooeyToastType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
-export interface GoeyToastTimings {
+export interface GooeyToastTimings {
   displayDuration?: number
 }
 
-export interface GoeyToastClassNames {
+export interface GooeyToastClassNames {
   wrapper?: string
   content?: string
   header?: string
@@ -19,20 +19,20 @@ export interface GoeyToastClassNames {
   actionButton?: string
 }
 
-export interface GoeyToastAction {
+export interface GooeyToastAction {
   label: string
   onClick: () => void
   successLabel?: string
 }
 
-export interface GoeyToastData {
+export interface GooeyToastData {
   title: string
   description?: ReactNode
-  type: GoeyToastType
-  action?: GoeyToastAction
+  type: GooeyToastType
+  action?: GooeyToastAction
   icon?: ReactNode
   duration?: number
-  classNames?: GoeyToastClassNames
+  classNames?: GooeyToastClassNames
   fillColor?: string
   borderColor?: string
   borderWidth?: number
@@ -41,17 +41,17 @@ export interface GoeyToastData {
   bounce?: number
 }
 
-export interface GoeyToastOptions {
+export interface GooeyToastOptions {
   description?: ReactNode
-  action?: GoeyToastAction
+  action?: GooeyToastAction
   icon?: ReactNode
   duration?: number
   id?: string | number
-  classNames?: GoeyToastClassNames
+  classNames?: GooeyToastClassNames
   fillColor?: string
   borderColor?: string
   borderWidth?: number
-  timing?: GoeyToastTimings
+  timing?: GooeyToastTimings
   preset?: AnimationPresetName
   spring?: boolean
   bounce?: number
@@ -60,7 +60,7 @@ export interface GoeyToastOptions {
   onAutoClose?: (id: string | number) => void
 }
 
-export interface GoeyPromiseData<T> {
+export interface GooeyPromiseData<T> {
   loading: string
   success: string | ((data: T) => string)
   error: string | ((error: unknown) => string)
@@ -70,14 +70,14 @@ export interface GoeyPromiseData<T> {
     error?: ReactNode | ((error: unknown) => ReactNode)
   }
   action?: {
-    success?: GoeyToastAction
-    error?: GoeyToastAction
+    success?: GooeyToastAction
+    error?: GooeyToastAction
   }
-  classNames?: GoeyToastClassNames
+  classNames?: GooeyToastClassNames
   fillColor?: string
   borderColor?: string
   borderWidth?: number
-  timing?: GoeyToastTimings
+  timing?: GooeyToastTimings
   preset?: AnimationPresetName
   spring?: boolean
   bounce?: number
@@ -85,21 +85,21 @@ export interface GoeyPromiseData<T> {
   onAutoClose?: (id: string | number) => void
 }
 
-export type GoeyToastPhase = 'loading' | 'default' | 'success' | 'error' | 'warning' | 'info'
+export type GooeyToastPhase = 'loading' | 'default' | 'success' | 'error' | 'warning' | 'info'
 
-export interface GoeyToastUpdateOptions {
+export interface GooeyToastUpdateOptions {
   title?: string
   description?: ReactNode
-  type?: GoeyToastType
-  action?: GoeyToastAction
+  type?: GooeyToastType
+  action?: GooeyToastAction
   icon?: ReactNode | null
 }
 
 export interface DismissFilter {
-  type: GoeyToastType | GoeyToastType[]
+  type: GooeyToastType | GooeyToastType[]
 }
 
-export interface GoeyToasterProps {
+export interface GooeyToasterProps {
   position?: ToasterProps['position']
   duration?: number
   gap?: number

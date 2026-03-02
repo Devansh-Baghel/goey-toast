@@ -5,7 +5,7 @@ import fs from 'fs'
 
 // Use local source in dev, npm package on Vercel
 const localSrc = path.resolve(__dirname, '../src/index.ts')
-const localCss = path.resolve(__dirname, '../src/components/GoeyToast.css')
+const localCss = path.resolve(__dirname, '../src/components/GooeyToast.css')
 const useLocalSource = fs.existsSync(localSrc)
 
 export default defineConfig({
