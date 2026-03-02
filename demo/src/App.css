@@ -1395,6 +1395,28 @@ code {
 }
 
 /* ============================================
+   Footer
+   ============================================ */
+.site-footer {
+  text-align: center;
+  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.site-footer a {
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+.site-footer a:hover {
+  color: var(--text);
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 840px) {

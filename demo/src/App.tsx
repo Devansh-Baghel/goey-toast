@@ -1288,6 +1288,15 @@ gooeyToast.success('Saved', {
           </div>
         </>
       )}
+
+      {/* Footer */}
+      <footer className="site-footer">
+        <p>
+          Also check out{' '}
+          <a href="https://gooey-search-tabs.vercel.app" target="_blank" rel="noopener noreferrer">gooey-search-tabs</a>{' '}
+          — a morphing search bar with animated tabs for React.
+        </p>
+      </footer>
     </>
   )
 }

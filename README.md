@@ -458,6 +458,10 @@ goey-toast works in all modern browsers that support:
 - ResizeObserver
 - `framer-motion` (Chrome, Firefox, Safari, Edge)
 
+## See Also
+
+- **[gooey-search-tabs](https://github.com/anl331/gooey-search-tabs)** — A morphing search bar with animated tab navigation for React. [Live Demo](https://gooey-search-tabs.vercel.app)
+
 ## License
 
 [MIT](./LICENSE)
