@@ -1,5 +1,5 @@
 {
-  "name": "goey-toast",
+  "name": "@baghel/goey-toast",
   "version": "0.3.0",
   "description": "A gooey, morphing toast component built on Sonner with Framer Motion animations",
   "type": "module",
@@ -61,11 +61,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anl331/goey-toast"
+    "url": "https://github.com/Devansh-Baghel/goey-toast-fork"
   },
   "homepage": "https://goey-toast.vercel.app",
   "bugs": {
-    "url": "https://github.com/anl331/goey-toast/issues"
+    "url": "https://github.com/Devansh-Baghel/goey-toast-fork/issues"
   },
   "engines": {
     "node": ">=18.0.0"

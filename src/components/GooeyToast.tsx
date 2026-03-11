@@ -1241,7 +1241,8 @@ export const GooeyToast: FC<GooeyToastProps> = ({
         <div ref={headerRef} className={`${styles.header} ${titleColorMap[effectivePhase]}${classNames?.header ? ` ${classNames.header}` : ''}`}>
           {iconAndTitle}
           {/* No-body toasts: timestamp inline after the title (hidden after action success) */}
-          {!hasDescription && !hasAction && !actionSuccess && <span className={styles.timestamp}>{timestampStr}</span>}
+          {/* FIX: remove timestamp from here */}
+          {/* !hasDescription && !hasAction && !actionSuccess && <span className={styles.timestamp}>{timestampStr}</span> */}
         </div>
 
         <AnimatePresence>
