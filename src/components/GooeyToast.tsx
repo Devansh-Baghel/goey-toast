@@ -1263,7 +1263,7 @@ export const GooeyToast: FC<GooeyToastProps> = ({
         </AnimatePresence>
 
         {/* Body toasts without description: timestamp on its own line */}
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {showBody && !hasDescription && hasAction && !dismissing && (
             <motion.div
               key="timestamp-body"
@@ -1277,7 +1277,7 @@ export const GooeyToast: FC<GooeyToastProps> = ({
               {timestampStr}
             </motion.div>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
 
         <AnimatePresence>
           {showBody && hasAction && effectiveAction && !dismissing && (
