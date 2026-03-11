@@ -1256,7 +1256,7 @@ export const GooeyToast: FC<GooeyToastProps> = ({
               exit={{ opacity: 0 }}
               transition={prefersReducedMotion ? { duration: 0.01 } : { duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
             >
-              <span className={styles.timestamp} style={{ float: 'right', marginLeft: 10, marginTop: 3, paddingLeft: 0 }}>{timestampStr}</span>
+              {/* <span className={styles.timestamp} style={{ float: 'right', marginLeft: 10, marginTop: 3, paddingLeft: 0 }}>{timestampStr}</span> */}
               {effectiveDescription}
             </motion.div>
           )}
